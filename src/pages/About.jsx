@@ -135,8 +135,8 @@ const About = () => {
           >
             <div className="relative aspect-video">
               {/* 
-                VIDEO PATH: Make sure your video is at: public/videos/0807/0807.mp4
-                The correct path in public folder should be: /videos/0807/0807.mp4
+                VIDEO PATH: Make sure your video is at: public/videos/0807/bossclothe.mp4
+                The correct path in public folder should be: /videos/0807/bossclothe.mp4
               */}
               <video
                 ref={videoRef}
@@ -150,12 +150,12 @@ const About = () => {
                 poster="/images/video-poster.jpg" // Optional: Add a poster image
               >
                 <source 
-                  src="/videos/0807/0807.mp4" 
+                  src="/videos/0807/bossclothe.mp4" 
                   type="video/mp4" 
                 />
                 <source 
-                  src="/videos/0807/0807.webm" 
-                  type="video/webm" 
+                  src="/videos/0807/bossclothe.mp4" 
+                  type="video/mp4" 
                 />
                 Your browser does not support the video tag.
               </video>
@@ -163,10 +163,10 @@ const About = () => {
               {/* Fallback if video doesn't load */}
               <div className="absolute inset-0 flex items-center justify-center bg-gray-800 hidden" id="video-fallback">
                 <p className="text-white text-center p-4">
-                  Video cannot be loaded. Please check the file path or format.
+                  Video cannot be loaded. 
                   <br />
                   <small className="text-gray-400">
-                    Expected path: /videos/0807/0807.mp4
+                    
                   </small>
                 </p>
               </div>
