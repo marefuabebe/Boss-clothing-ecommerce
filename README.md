@@ -124,6 +124,7 @@ src/
 - Firefox (latest)
 - Safari (latest)
 - Edge (latest)
+Testing CodeRabbit AI review
 
 ## License
 
