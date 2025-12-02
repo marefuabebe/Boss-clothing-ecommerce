@@ -13,10 +13,7 @@ import {
   FaInstagram,
   FaPinterest,
   FaEye,
-  FaShoppingBag,
-  FaTshirt,
-  FaGem,
-  FaFire
+  FaShoppingBag
 } from 'react-icons/fa';
 import { IoGrid, IoImage, IoCube, IoShirt, IoBag, IoFlame } from 'react-icons/io5';
 
@@ -396,132 +393,124 @@ const Gallery = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.08
+        staggerChildren: 0.05
       }
     }
   };
 
   const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
+    hidden: { y: 15, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
         type: "spring",
-        stiffness: 100,
-        damping: 15
+        stiffness: 120,
+        damping: 12
       }
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black py-12 px-4 sm:px-6">
-      {/* Background Decorative Elements */}
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black py-8 px-4">
+      {/* Background Decorative Elements - Simplified */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/3 -left-40 w-80 h-80 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-40 right-1/4 w-60 h-60 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute -top-40 -right-40 w-64 h-64 bg-gradient-to-r from-purple-500/5 to-pink-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/3 -left-40 w-64 h-64 bg-gradient-to-r from-blue-500/5 to-cyan-500/5 rounded-full blur-3xl"></div>
       </div>
 
       <div className="container mx-auto relative z-10 max-w-7xl">
-        {/* Header Section */}
+        {/* Header Section - More Compact */}
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, type: "spring" }}
-          className="text-center mb-16"
+          transition={{ duration: 0.6 }}
+          className="text-center mb-10"
         >
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-block mb-8"
-          >
-            <div className="w-28 h-28 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 flex items-center justify-center mx-auto shadow-2xl">
-              <FaShoppingBag className="text-white text-5xl" />
-            </div>
-          </motion.div>
+          <div className="w-20 h-20 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center mx-auto mb-5 shadow-lg">
+            <FaShoppingBag className="text-white text-3xl" />
+          </div>
           
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-6">
+          <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-4">
             Fashion Gallery
           </h1>
-          <p className="text-xl sm:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed mb-10">
-            Explore our curated collections of premium fashion. Discover styles for every occasion.
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-8">
+            Explore our curated collections of premium fashion.
           </p>
 
-          {/* Stats Bar */}
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 max-w-5xl mx-auto mb-16">
+          {/* Stats Bar - More Compact */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 max-w-4xl mx-auto mb-10">
             {categories.map((category, index) => (
               <motion.div
                 key={category.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 cursor-pointer hover:scale-105 transition-transform"
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                className="bg-gray-800/40 backdrop-blur-sm rounded-xl p-3 border border-gray-700/30 cursor-pointer hover:scale-[1.02] transition-transform"
                 onClick={() => setActiveCategory(category.id)}
               >
-                <div className={`w-16 h-16 rounded-full bg-gradient-to-r ${category.color} flex items-center justify-center mx-auto mb-4`}>
-                  <div className="text-white text-2xl">
+                <div className={`w-10 h-10 rounded-full bg-gradient-to-r ${category.color} flex items-center justify-center mx-auto mb-2`}>
+                  <div className="text-white text-lg">
                     {category.icon}
                   </div>
                 </div>
-                <div className="text-3xl font-bold text-white mb-2">{category.count}</div>
-                <div className="text-gray-400 text-base truncate">{category.name}</div>
+                <div className="text-xl font-bold text-white mb-1">{category.count}</div>
+                <div className="text-gray-400 text-xs truncate">{category.name}</div>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
-        {/* Filter and Search Bar - Made More Spacious */}
+        {/* Filter and Search Bar - More Compact */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="bg-gray-800/50 backdrop-blur-sm rounded-3xl p-8 mb-10 border border-gray-700/50 shadow-2xl"
+          transition={{ duration: 0.5 }}
+          className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-5 mb-8 border border-gray-700/30"
         >
-          <div className="flex flex-col md:flex-row gap-8">
-            {/* Search Bar - Made More Spacious */}
+          <div className="flex flex-col md:flex-row gap-5">
+            {/* Search Bar */}
             <div className="flex-1">
               <div className="relative">
-                <FaSearch className="absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
+                <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <input
                   type="text"
                   placeholder="Search collections, styles, or tags..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-16 pr-14 py-5 bg-gray-900/50 border border-gray-700/50 rounded-2xl focus:outline-none focus:border-purple-500 text-white placeholder-gray-500 transition-all duration-300 backdrop-blur-sm text-lg"
+                  className="w-full pl-12 pr-10 py-3 bg-gray-900/40 border border-gray-700/30 rounded-xl focus:outline-none focus:border-purple-500 text-white placeholder-gray-500 transition-all backdrop-blur-sm"
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
                   >
-                    <FaTimesCircle className="text-xl" />
+                    <FaTimesCircle />
                   </button>
                 )}
               </div>
             </div>
 
-            {/* Category Filter Buttons - Made More Spacious */}
-            <div className="flex flex-wrap gap-3 justify-center md:justify-start">
+            {/* Category Filter Buttons */}
+            <div className="flex flex-wrap gap-2 justify-center md:justify-start">
               {categories.map((category) => (
                 <motion.button
                   key={category.id}
                   onClick={() => setActiveCategory(category.id)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`flex items-center px-6 py-4 rounded-2xl transition-all duration-300 border text-base ${
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className={`flex items-center px-4 py-2 rounded-xl transition-all duration-200 border text-sm ${
                     activeCategory === category.id
-                      ? `bg-gradient-to-r ${category.color} text-white shadow-xl border-transparent`
-                      : 'bg-gray-900/50 text-gray-400 hover:bg-gray-800/50 hover:text-white border-gray-700/50'
+                      ? `bg-gradient-to-r ${category.color} text-white shadow-lg border-transparent`
+                      : 'bg-gray-900/40 text-gray-400 hover:bg-gray-800/40 hover:text-white border-gray-700/30'
                   }`}
                 >
-                  <span className="mr-3 text-lg">{category.icon}</span>
-                  <span className="font-medium">{category.name}</span>
-                  <span className={`ml-3 text-sm px-3 py-1.5 rounded-full ${
+                  <span className="mr-2">{category.icon}</span>
+                  <span>{category.name}</span>
+                  <span className={`ml-2 text-xs px-1.5 py-0.5 rounded-full ${
                     activeCategory === category.id 
                       ? 'bg-white/20' 
-                      : 'bg-gray-700/50'
+                      : 'bg-gray-700/40'
                   }`}>
                     {category.count}
                   </span>
@@ -531,53 +520,48 @@ const Gallery = () => {
           </div>
         </motion.div>
 
-        {/* Results Info - Made More Spacious */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="flex justify-between items-center mb-8"
-        >
+        {/* Results Info */}
+        <div className="flex justify-between items-center mb-6">
           <div>
-            <h3 className="text-2xl font-bold text-white mb-2">
+            <h3 className="text-lg font-bold text-white">
               Showing {filteredImages.length} of {galleryImages.length} items
               {activeCategory !== 'all' && ` in ${categories.find(c => c.id === activeCategory)?.name}`}
             </h3>
             {searchQuery && (
-              <p className="text-gray-400 text-base mt-1">
-                Search results for: <span className="text-purple-300 font-medium">"{searchQuery}"</span>
+              <p className="text-gray-400 text-sm mt-1">
+                Search results for: <span className="text-purple-300">"{searchQuery}"</span>
               </p>
             )}
           </div>
           
-          {/* View Mode Toggle - Made More Spacious */}
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-2 inline-flex border border-gray-700/50">
+          {/* View Mode Toggle */}
+          <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-1 inline-flex border border-gray-700/30">
             <button
               onClick={() => setViewMode('grid')}
-              className={`px-6 py-3 rounded-xl transition-all duration-300 flex items-center gap-3 ${
+              className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 ${
                 viewMode === 'grid'
                   ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
                   : 'text-gray-400 hover:text-white'
               }`}
             >
-              <IoGrid className="text-2xl" />
-              <span className="hidden sm:inline text-base font-medium">Grid</span>
+              <IoGrid />
+              <span className="hidden sm:inline text-sm">Grid</span>
             </button>
             <button
               onClick={() => setViewMode('masonry')}
-              className={`px-6 py-3 rounded-xl transition-all duration-300 flex items-center gap-3 ${
+              className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 ${
                 viewMode === 'masonry'
                   ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
                   : 'text-gray-400 hover:text-white'
               }`}
             >
-              <IoImage className="text-2xl" />
-              <span className="hidden sm:inline text-base font-medium">Masonry</span>
+              <IoImage />
+              <span className="hidden sm:inline text-sm">Masonry</span>
             </button>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Gallery Grid */}
+        {/* Gallery Grid - New Structure */}
         <motion.div
           ref={galleryRef}
           variants={containerVariants}
@@ -585,8 +569,8 @@ const Gallery = () => {
           animate={isInView ? "visible" : "hidden"}
           className={`grid ${
             viewMode === 'grid' 
-              ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'
-              : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'
+              ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'
+              : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5'
           }`}
         >
           <AnimatePresence mode="wait">
@@ -598,118 +582,90 @@ const Gallery = () => {
                 initial="hidden"
                 animate="visible"
                 exit={{ opacity: 0, scale: 0.9 }}
-                className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700/50 shadow-xl cursor-pointer"
-                whileHover={{ y: -5, scale: 1.02 }}
+                className="group relative overflow-hidden rounded-xl bg-gray-800/20 border border-gray-700/20 hover:border-gray-600/40 shadow-lg cursor-pointer"
+                whileHover={{ y: -3 }}
                 onClick={() => openLightbox(image, index)}
               >
                 {/* Image Container */}
-                <div className="relative h-72 sm:h-80 overflow-hidden">
+                <div className="relative aspect-square overflow-hidden">
                   <motion.img
                     src={image.src}
                     alt={image.title}
-                    className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.6 }}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
                   
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
-                  
-                  {/* Favorite Button */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleFavorite(image.id);
-                    }}
-                    className="absolute top-6 right-6 w-12 h-12 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 transition-all duration-300 z-10"
-                    aria-label={favorites.has(image.id) ? 'Remove from favorites' : 'Add to favorites'}
-                  >
-                    <FaHeart className={`text-xl ${favorites.has(image.id) ? 'text-red-500 fill-red-500 animate-pulse' : 'text-white'}`} />
-                  </button>
-                  
-                  {/* Category Badge */}
-                  <div className="absolute top-6 left-6 z-10">
-                    <span className={`px-4 py-2 text-sm font-medium rounded-full capitalize ${
-                      image.category === 'mens' ? 'bg-blue-500/80 text-white' :
-                      image.category === 'womens' ? 'bg-pink-500/80 text-white' :
-                      image.category === 'accessories' ? 'bg-amber-500/80 text-white' :
-                      image.category === 'trends' ? 'bg-orange-500/80 text-white' :
-                      'bg-purple-500/80 text-white'
-                    }`}>
-                      {image.category}
-                    </span>
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                    <div className="p-4 w-full">
+                      <div className="flex justify-between items-center">
+                        <span className={`px-2 py-1 text-xs font-medium rounded-full capitalize ${
+                          image.category === 'mens' ? 'bg-blue-500/80 text-white' :
+                          image.category === 'womens' ? 'bg-pink-500/80 text-white' :
+                          image.category === 'accessories' ? 'bg-amber-500/80 text-white' :
+                          image.category === 'trends' ? 'bg-orange-500/80 text-white' :
+                          'bg-purple-500/80 text-white'
+                        }`}>
+                          {image.category}
+                        </span>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleFavorite(image.id);
+                          }}
+                          className="w-8 h-8 rounded-full bg-black/50 flex items-center justify-center text-white hover:bg-black/70 transition-all"
+                          aria-label={favorites.has(image.id) ? 'Remove from favorites' : 'Add to favorites'}
+                        >
+                          <FaHeart className={`text-sm ${favorites.has(image.id) ? 'text-red-500 fill-red-500' : ''}`} />
+                        </button>
+                      </div>
+                    </div>
                   </div>
                   
-                  {/* View Button */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center shadow-2xl">
-                      <FaEye className="text-white text-3xl" />
+                  {/* Quick View Button */}
+                  <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center shadow-lg">
+                      <FaEye className="text-white text-sm" />
                     </div>
                   </div>
                 </div>
                 
                 {/* Content */}
-                <div className="p-8">
-                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-purple-300 transition-colors duration-300">
-                    {image.title}
-                  </h3>
-                  <p className="text-gray-400 text-base mb-5 line-clamp-2">
+                <div className="p-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-base font-bold text-white truncate flex-1 mr-2">
+                      {image.title}
+                    </h3>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDownload(image.src, image.title);
+                      }}
+                      className="text-gray-400 hover:text-emerald-400 transition-colors p-1"
+                      title="Download"
+                    >
+                      <FaDownload className="text-sm" />
+                    </button>
+                  </div>
+                  <p className="text-gray-400 text-sm mb-3 line-clamp-2">
                     {image.description}
                   </p>
                   
                   {/* Tags */}
-                  <div className="flex flex-wrap gap-3 mb-6">
+                  <div className="flex flex-wrap gap-1.5">
                     {image.tags.slice(0, 2).map((tag) => (
                       <span
                         key={tag}
-                        className="px-3 py-1.5 bg-gray-700/50 text-gray-300 text-sm rounded-full"
+                        className="px-2 py-0.5 bg-gray-700/30 text-gray-300 text-xs rounded"
                       >
                         #{tag}
                       </span>
                     ))}
                     {image.tags.length > 2 && (
-                      <span className="px-3 py-1.5 bg-gray-700/50 text-gray-300 text-sm rounded-full">
+                      <span className="px-2 py-0.5 bg-gray-700/30 text-gray-300 text-xs rounded">
                         +{image.tags.length - 2}
                       </span>
                     )}
-                  </div>
-                  
-                  {/* Action Buttons */}
-                  <div className="flex justify-between items-center pt-6 border-t border-gray-700/50">
-                    <div className="flex gap-4">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigator.share({
-                            title: image.title,
-                            text: image.description,
-                            url: window.location.href,
-                          }).catch(console.log);
-                        }}
-                        className="text-gray-400 hover:text-purple-400 transition-colors duration-300 p-2.5"
-                        title="Share"
-                      >
-                        <FaShare className="text-lg" />
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDownload(image.src, image.title);
-                        }}
-                        className="text-gray-400 hover:text-emerald-400 transition-colors duration-300 p-2.5"
-                        title="Download"
-                      >
-                        <FaDownload className="text-lg" />
-                      </button>
-                    </div>
-                    <div className="text-gray-500 text-sm uppercase tracking-wider font-medium">
-                      {image.category === 'mens' && 'Men\'s'}
-                      {image.category === 'womens' && 'Women\'s'}
-                      {image.category === 'accessories' && 'Accessories'}
-                      {image.category === 'trends' && 'Trending'}
-                      {image.category === 'collection' && 'Collection'}
-                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -722,22 +678,22 @@ const Gallery = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-center py-20"
+            className="text-center py-16"
           >
-            <div className="w-40 h-40 mx-auto mb-8 rounded-full bg-gradient-to-r from-gray-800 to-gray-900 flex items-center justify-center border border-gray-700/50">
-              <FaSearch className="text-gray-500 text-6xl" />
+            <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gray-800/20 flex items-center justify-center border border-gray-700/30">
+              <FaSearch className="text-gray-500 text-5xl" />
             </div>
-            <h3 className="text-3xl font-bold text-white mb-4">No Images Found</h3>
-            <p className="text-gray-400 max-w-md mx-auto mb-8 text-lg">
+            <h3 className="text-2xl font-bold text-white mb-3">No Images Found</h3>
+            <p className="text-gray-400 max-w-md mx-auto mb-6">
               {searchQuery 
-                ? `No results found for "${searchQuery}". Try different keywords or clear the search.`
-                : `No items found in this category. Try selecting a different category.`
+                ? `No results found for "${searchQuery}". Try different keywords.`
+                : `No items found in this category.`
               }
             </p>
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-2xl hover:shadow-xl transition-all duration-300 text-lg"
+                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl hover:shadow-lg transition-all"
               >
                 Clear Search
               </button>
@@ -745,62 +701,62 @@ const Gallery = () => {
           </motion.div>
         )}
 
-        {/* Load More Button (Optional) */}
+        {/* Load More Button */}
         {filteredImages.length > 0 && filteredImages.length < galleryImages.length && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="text-center mt-16"
+            transition={{ delay: 0.3 }}
+            className="text-center mt-12"
           >
-            <button className="px-10 py-5 bg-gradient-to-r from-gray-800 to-gray-900 text-white font-semibold rounded-2xl hover:shadow-xl transition-all duration-300 border border-gray-700/50 backdrop-blur-sm text-lg">
-              Load More Collections
+            <button className="px-8 py-3 bg-gray-800/30 text-white font-medium rounded-xl hover:shadow-lg transition-all duration-300 border border-gray-700/30 backdrop-blur-sm">
+              Load More
             </button>
           </motion.div>
         )}
       </div>
 
-      {/* Advanced Lightbox Modal */}
+      {/* Lightbox Modal - Fixed Size Issue */}
       <AnimatePresence>
         {selectedImage && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeLightbox}
           >
             {/* Backdrop */}
-            <div className="absolute inset-0 bg-black/95 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" />
             
             {/* Lightbox Content */}
             <motion.div
-              className="relative w-full max-w-6xl"
-              initial={{ scale: 0.9, y: 50 }}
+              className="relative w-full max-w-4xl mx-auto"
+              initial={{ scale: 0.9, y: 40 }}
               animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 50 }}
+              exit={{ scale: 0.9, y: 40 }}
               transition={{ type: "spring", damping: 25 }}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Top Controls */}
-              <div className="absolute top-6 left-6 right-6 flex justify-between items-center z-10">
-                <div className="flex items-center gap-6">
+              <div className="absolute top-3 left-3 right-3 flex justify-between items-center z-10">
+                <div className="flex items-center gap-3">
                   <motion.button
                     onClick={closeLightbox}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="w-14 h-14 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 transition-all duration-300 border border-white/20"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 transition-all border border-white/10"
                   >
-                    <FaTimes className="text-2xl" />
+                    <FaTimes className="text-lg" />
                   </motion.button>
-                  <div className="bg-black/50 backdrop-blur-sm px-5 py-3 rounded-full border border-white/20">
-                    <span className="text-white font-medium text-lg">
+                  <div className="bg-black/50 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
+                    <span className="text-white text-sm">
                       {currentIndex + 1} / {filteredImages.length}
                     </span>
                   </div>
                 </div>
                 
-                <div className="flex gap-4">
+                <div className="flex gap-2">
                   {[
                     { icon: FaHeart, action: () => toggleFavorite(selectedImage.id), active: favorites.has(selectedImage.id), label: 'Favorite' },
                     { icon: FaExpand, action: toggleFullscreen, active: isFullscreen, label: 'Fullscreen' },
@@ -812,12 +768,12 @@ const Gallery = () => {
                         e.stopPropagation();
                         btn.action();
                       }}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="w-14 h-14 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 transition-all duration-300 border border-white/20"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 transition-all border border-white/10"
                       title={btn.label}
                     >
-                      <btn.icon className={`text-2xl ${btn.active ? 'text-red-500 fill-red-500' : ''}`} />
+                      <btn.icon className={`text-lg ${btn.active ? 'text-red-500 fill-red-500' : ''}`} />
                     </motion.button>
                   ))}
                 </div>
@@ -829,11 +785,11 @@ const Gallery = () => {
                   e.stopPropagation();
                   navigate('prev');
                 }}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="absolute left-6 top-1/2 transform -translate-y-1/2 w-16 h-16 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 transition-all duration-300 border border-white/20 z-10"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 transition-all border border-white/10 z-10"
               >
-                <FaChevronLeft className="text-3xl" />
+                <FaChevronLeft className="text-xl" />
               </motion.button>
               
               <motion.button
@@ -841,37 +797,37 @@ const Gallery = () => {
                   e.stopPropagation();
                   navigate('next');
                 }}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="absolute right-6 top-1/2 transform -translate-y-1/2 w-16 h-16 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 transition-all duration-300 border border-white/20 z-10"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 transition-all border border-white/10 z-10"
               >
-                <FaChevronRight className="text-3xl" />
+                <FaChevronRight className="text-xl" />
               </motion.button>
               
-              {/* Main Image */}
-              <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-gray-900 to-black">
+              {/* Main Image - FIXED SIZE */}
+              <div className="relative rounded-lg overflow-hidden bg-gray-900">
                 <motion.img
                   key={selectedImage.id}
                   src={selectedImage.src}
                   alt={selectedImage.title}
-                  className="w-full h-auto max-h-[70vh] object-contain"
+                  className="w-full max-h-[50vh] object-contain mx-auto" // Changed from max-h-[70vh] to max-h-[50vh]
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3 }}
                 />
               </div>
               
-              {/* Image Info */}
+              {/* Image Info - More Compact */}
               <motion.div
-                className="bg-gradient-to-r from-gray-900/90 to-black/90 backdrop-blur-sm rounded-b-3xl p-10 border-t border-gray-700/50"
-                initial={{ y: 20, opacity: 0 }}
+                className="bg-gray-900/80 backdrop-blur-sm rounded-b-lg p-5 border-t border-gray-700/30"
+                initial={{ y: 15, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2 }}
+                transition={{ delay: 0.1 }}
               >
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
                   <div className="flex-1">
-                    <div className="flex items-center gap-4 mb-4">
-                      <span className={`px-4 py-2 text-base font-medium rounded-full capitalize ${
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className={`px-2 py-1 text-xs font-medium rounded-full capitalize ${
                         selectedImage.category === 'mens' ? 'bg-blue-500/80 text-white' :
                         selectedImage.category === 'womens' ? 'bg-pink-500/80 text-white' :
                         selectedImage.category === 'accessories' ? 'bg-amber-500/80 text-white' :
@@ -881,18 +837,18 @@ const Gallery = () => {
                         {selectedImage.category}
                       </span>
                       {favorites.has(selectedImage.id) && (
-                        <span className="px-4 py-2 bg-red-500/20 text-red-300 text-base rounded-full flex items-center gap-2">
-                          <FaHeart className="text-sm" /> Favorited
+                        <span className="px-2 py-1 bg-red-500/20 text-red-300 text-xs rounded-full flex items-center gap-1">
+                          <FaHeart className="text-xs" /> Favorited
                         </span>
                       )}
                     </div>
-                    <h3 className="text-4xl font-bold text-white mb-4">{selectedImage.title}</h3>
-                    <p className="text-gray-300 text-xl mb-6">{selectedImage.description}</p>
-                    <div className="flex flex-wrap gap-3">
+                    <h3 className="text-xl font-bold text-white mb-2">{selectedImage.title}</h3>
+                    <p className="text-gray-300 text-sm mb-4">{selectedImage.description}</p>
+                    <div className="flex flex-wrap gap-1.5">
                       {selectedImage.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm text-purple-300 text-base font-medium rounded-full border border-purple-500/30"
+                          className="px-2 py-1 bg-gray-800/50 text-gray-300 text-xs rounded border border-gray-700/30"
                         >
                           #{tag}
                         </span>
@@ -900,21 +856,21 @@ const Gallery = () => {
                     </div>
                   </div>
                   
-                  <div className="flex gap-6">
+                  <div className="flex gap-3">
                     <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-2xl hover:shadow-xl transition-all duration-300 flex items-center gap-4 text-lg"
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-lg hover:shadow-lg transition-all flex items-center gap-2 text-sm"
                     >
-                      <FaInstagram className="text-xl" />
+                      <FaInstagram className="text-sm" />
                       Share
                     </motion.button>
                     <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="px-8 py-4 bg-gray-800 text-white font-semibold rounded-2xl hover:bg-gray-700 transition-all duration-300 border border-gray-700 flex items-center gap-4 text-lg"
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="px-4 py-2 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-700 transition-all border border-gray-700/30 flex items-center gap-2 text-sm"
                     >
-                      <FaPinterest className="text-xl" />
+                      <FaPinterest className="text-sm" />
                       Pin It
                     </motion.button>
                   </div>
@@ -924,18 +880,16 @@ const Gallery = () => {
             
             {/* Keyboard Hint */}
             <motion.div
-              className="absolute bottom-10 left-1/2 transform -translate-x-1/2 bg-black/50 backdrop-blur-sm px-8 py-4 rounded-full border border-white/20"
+              className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: 0.3 }}
             >
-              <span className="text-gray-400 text-base flex items-center gap-6">
-                <kbd className="px-3 py-1.5 bg-gray-800 rounded text-sm">← →</kbd>
+              <span className="text-gray-400 text-xs flex items-center gap-3">
+                <kbd className="px-2 py-0.5 bg-gray-800 rounded text-xs">← →</kbd>
                 <span>Navigate</span>
-                <kbd className="px-3 py-1.5 bg-gray-800 rounded text-sm">ESC</kbd>
+                <kbd className="px-2 py-0.5 bg-gray-800 rounded text-xs">ESC</kbd>
                 <span>Close</span>
-                <kbd className="px-3 py-1.5 bg-gray-800 rounded text-sm">F</kbd>
-                <span>Fullscreen</span>
               </span>
             </motion.div>
           </motion.div>
