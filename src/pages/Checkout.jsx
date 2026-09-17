@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
-import { CheckCircle, CreditCard, MapPin, User, ChevronLeft, ChevronRight } from 'lucide-react';
+import { CheckCircle, CreditCard, MapPin, User, ChevronLeft } from 'lucide-react';
 import AuthModal from '../components/AuthModal';
 
 const Checkout = () => {
@@ -32,8 +32,8 @@ const Checkout = () => {
   const [errors, setErrors] = useState({});
 
   const subtotal = getCartTotal();
-  const shipping = subtotal > 100 ? 0 : 9.99;
-  const tax = subtotal * 0.1;
+  const shipping = subtotal >= 100 ? 0 : 9.99;
+  const tax = subtotal * 0.08;
   const total = subtotal + shipping + tax;
 
   useEffect(() => {
@@ -52,22 +52,22 @@ const Checkout = () => {
     const newErrors = {};
 
     if (step === 1) {
-      if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
-      if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
-      if (!formData.email.trim()) newErrors.email = 'Email is required';
+      if (!formData.firstName.trim()) newErrors.firstName = 'First name required';
+      if (!formData.lastName.trim()) newErrors.lastName = 'Last name required';
+      if (!formData.email.trim()) newErrors.email = 'Email required';
       else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
-        newErrors.email = 'Invalid email format';
-      if (!formData.phone.trim()) newErrors.phone = 'Phone is required';
-      if (!formData.address.trim()) newErrors.address = 'Address is required';
-      if (!formData.city.trim()) newErrors.city = 'City is required';
-      if (!formData.state) newErrors.state = 'Region is required';
-      if (!formData.zip.trim()) newErrors.zip = 'Postal code is required';
+        newErrors.email = 'Invalid email';
+      if (!formData.phone.trim()) newErrors.phone = 'Phone required';
+      if (!formData.address.trim()) newErrors.address = 'Address required';
+      if (!formData.city.trim()) newErrors.city = 'City required';
+      if (!formData.state) newErrors.state = 'Region required';
+      if (!formData.zip.trim()) newErrors.zip = 'Postal code required';
     }
 
     if (step === 2 && paymentMethod === 'card') {
-      if (!formData.cardNumber.trim()) newErrors.cardNumber = 'Card number is required';
-      if (!formData.cardExpiry.trim()) newErrors.cardExpiry = 'Expiry date is required';
-      if (!formData.cardCvv.trim()) newErrors.cardCvv = 'CVV is required';
+      if (!formData.cardNumber.trim()) newErrors.cardNumber = 'Card number required';
+      if (!formData.cardExpiry.trim()) newErrors.cardExpiry = 'Expiry date required';
+      if (!formData.cardCvv.trim()) newErrors.cardCvv = 'CVV required';
     }
 
     if (step === 2 && !paymentMethod) {
@@ -88,9 +88,7 @@ const Checkout = () => {
 
     setLoading(true);
     try {
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
       clearCart();
       setOrderPlaced(true);
     } catch (error) {
@@ -121,33 +119,33 @@ const Checkout = () => {
 
   if (orderPlaced) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors flex items-center justify-center">
-        <div className="max-w-md w-full mx-4">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 text-center border border-gray-200 dark:border-gray-700">
-            <CheckCircle className="mx-auto text-blue-500 mb-6" size={80} />
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Order Placed Successfully!
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-2">
-              Thank you for your purchase, {formData.firstName}!
-            </p>
-            <p className="text-gray-600 dark:text-gray-400 mb-8">
-              A confirmation email has been sent to <span className="font-semibold">{formData.email}</span>
-            </p>
-            <div className="space-y-3">
-              <button
-                onClick={() => navigate('/')}
-                className="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition-all transform hover:scale-105"
-              >
-                Back to Home
-              </button>
-              <button
-                onClick={() => navigate('/shop')}
-                className="w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white py-3 rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-              >
-                Continue Shopping
-              </button>
-            </div>
+      <div className="min-h-screen bg-[#0B0B0F] text-gray-100 flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-[#121218] rounded-2xl border border-white/10 p-6 sm:p-8 text-center shadow-2xl">
+          <div className="w-14 h-14 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-300 flex items-center justify-center mx-auto mb-4">
+            <CheckCircle size={28} />
+          </div>
+          <h2 className="text-2xl font-bold font-playfair text-white mb-2">
+            Order Confirmed
+          </h2>
+          <p className="text-xs text-gray-300 mb-1">
+            Thank you, <span className="text-amber-300 font-semibold">{formData.firstName}</span>.
+          </p>
+          <p className="text-xs text-gray-400 mb-6">
+            A confirmation email has been dispatched to <span className="text-white">{formData.email}</span>.
+          </p>
+          <div className="space-y-2">
+            <button
+              onClick={() => navigate('/')}
+              className="w-full py-2.5 px-4 rounded-full bg-amber-400 text-black font-semibold text-xs uppercase tracking-wider hover:bg-amber-300 transition-colors shadow-md"
+            >
+              Return to Atelier Home
+            </button>
+            <button
+              onClick={() => navigate('/shop')}
+              className="w-full py-2.5 px-4 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white text-xs uppercase tracking-wider transition-colors"
+            >
+              Explore More Pieces
+            </button>
           </div>
         </div>
       </div>
@@ -155,461 +153,383 @@ const Checkout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors py-8">
-      <div className="container mx-auto px-4">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-          {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white p-6 text-center shadow-lg">
-            <h2 className="text-3xl font-bold mb-2">Checkout</h2>
-            <p className="text-blue-50">Complete your purchase in a few easy steps</p>
+    <div className="min-h-screen bg-[#0B0B0F] text-gray-100 py-6 sm:py-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="bg-[#121218] rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
+          {/* Header - Compact */}
+          <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between">
+            <div>
+              <span className="text-[10px] uppercase tracking-[0.25em] text-amber-400 font-semibold block mb-0.5">
+                VIP Checkout
+              </span>
+              <h1 className="text-xl sm:text-2xl font-bold font-playfair text-white">
+                Secure Atelier Checkout
+              </h1>
+            </div>
+            <span className="text-xs text-emerald-400 font-medium hidden sm:inline">
+              ✓ 256-Bit SSL Encrypted
+            </span>
           </div>
 
-          {/* Steps */}
-          <div className="flex justify-between p-6 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 border-b border-gray-200 dark:border-gray-700">
+          {/* Stepper - Compact */}
+          <div className="flex justify-between p-3 sm:p-4 bg-black/30 border-b border-white/10 text-xs">
             {[1, 2, 3].map((step) => (
               <div key={step} className="flex-1 flex items-center">
                 <div
-                  className={`flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 ${
+                  className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs transition-colors ${
                     currentStep >= step 
-                      ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/50' 
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-400'
+                      ? 'bg-amber-400 text-black shadow-sm' 
+                      : 'bg-white/10 text-gray-500'
                   }`}
                 >
-                  {currentStep > step ? <CheckCircle className="text-sm" /> : <span className="font-bold">{step}</span>}
+                  {currentStep > step ? '✓' : step}
                 </div>
-                <div className="ml-4">
-                  <p className={`font-semibold transition-colors ${
-                    currentStep >= step ? 'text-gray-900 dark:text-white' : 'text-gray-400'
-                  }`}>
-                    {step === 1 && 'Information'}
-                    {step === 2 && 'Payment'}
-                    {step === 3 && 'Review'}
-                  </p>
-                </div>
+                <span className={`ml-2 text-xs font-semibold hidden sm:inline ${
+                  currentStep >= step ? 'text-white' : 'text-gray-500'
+                }`}>
+                  {step === 1 && 'Shipping'}
+                  {step === 2 && 'Payment'}
+                  {step === 3 && 'Review'}
+                </span>
                 {step < 3 && (
-                  <div
-                    className={`flex-1 h-1 mx-4 rounded-full transition-all duration-300 ${
-                      currentStep > step ? 'bg-gradient-to-r from-blue-500 to-blue-400' : 'bg-gray-200 dark:bg-gray-700'
-                    }`}
-                  />
+                  <div className={`flex-1 h-0.5 mx-3 rounded ${
+                    currentStep > step ? 'bg-amber-400' : 'bg-white/10'
+                  }`} />
                 )}
               </div>
             ))}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-6">
-            {/* Form Section */}
-            <div className="lg:col-span-2">
+          {/* Checkout Grid - Compact Padding */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-4 sm:p-6">
+            {/* Step Content */}
+            <div className="lg:col-span-2 space-y-4">
               {currentStep === 1 && (
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  className="space-y-6"
-                >
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
-                      <User className="text-blue-500" size={24} />
-                      Contact Information
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                          First Name *
-                        </label>
-                        <input
-                          type="text"
-                          name="firstName"
-                          value={formData.firstName}
-                          onChange={handleInputChange}
-                          className={`w-full px-4 py-3 border-2 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                            errors.firstName ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                          }`}
-                        />
-                        {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>}
-                      </div>
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                          Last Name *
-                        </label>
-                        <input
-                          type="text"
-                          name="lastName"
-                          value={formData.lastName}
-                          onChange={handleInputChange}
-                          className={`w-full px-4 py-3 border-2 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                            errors.lastName ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                          }`}
-                        />
-                        {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
-                      </div>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-sm font-bold text-white border-b border-white/10 pb-2">
+                    <User size={16} className="text-amber-400" />
+                    <span>Client & Delivery Details</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-1">First Name *</label>
+                      <input
+                        type="text"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400/60"
+                      />
+                      {errors.firstName && <p className="text-red-400 text-[10px] mt-0.5">{errors.firstName}</p>}
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                          Email *
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          className={`w-full px-4 py-3 border-2 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                            errors.email ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                          }`}
-                        />
-                        {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
-                      </div>
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                          Phone *
-                        </label>
-                        <input
-                          type="tel"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          className={`w-full px-4 py-3 border-2 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                            errors.phone ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                          }`}
-                        />
-                        {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
-                      </div>
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-1">Last Name *</label>
+                      <input
+                        type="text"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400/60"
+                      />
+                      {errors.lastName && <p className="text-red-400 text-[10px] mt-0.5">{errors.lastName}</p>}
                     </div>
                   </div>
 
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
-                      <MapPin className="text-blue-500" size={24} />
-                      Shipping Address
-                    </h2>
-                    <div className="space-y-4">
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                          Address *
-                        </label>
-                        <textarea
-                          name="address"
-                          value={formData.address}
-                          onChange={handleInputChange}
-                          rows={3}
-                          className={`w-full px-4 py-3 border-2 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                            errors.address ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                          }`}
-                        />
-                        {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                            City *
-                          </label>
-                          <input
-                            type="text"
-                            name="city"
-                            value={formData.city}
-                            onChange={handleInputChange}
-                            className={`w-full px-4 py-3 border-2 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                              errors.city ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                            }`}
-                          />
-                          {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city}</p>}
-                        </div>
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                            Region *
-                          </label>
-                          <select
-                            name="state"
-                            value={formData.state}
-                            onChange={handleInputChange}
-                            className={`w-full px-4 py-3 border-2 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                              errors.state ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                            }`}
-                          >
-                            <option value="">Select Region</option>
-                            <option value="Addis Ababa">Addis Ababa</option>
-                            <option value="Oromia">Oromia</option>
-                            <option value="Amhara">Amhara</option>
-                            <option value="Tigray">Tigray</option>
-                          </select>
-                          {errors.state && <p className="text-red-500 text-xs mt-1">{errors.state}</p>}
-                        </div>
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                            Postal Code *
-                          </label>
-                          <input
-                            type="text"
-                            name="zip"
-                            value={formData.zip}
-                            onChange={handleInputChange}
-                            className={`w-full px-4 py-3 border-2 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                              errors.zip ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                            }`}
-                          />
-                          {errors.zip && <p className="text-red-500 text-xs mt-1">{errors.zip}</p>}
-                        </div>
-                      </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-1">Email *</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400/60"
+                      />
+                      {errors.email && <p className="text-red-400 text-[10px] mt-0.5">{errors.email}</p>}
+                    </div>
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-1">Phone *</label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        placeholder="+251 ..."
+                        className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400/60"
+                      />
+                      {errors.phone && <p className="text-red-400 text-[10px] mt-0.5">{errors.phone}</p>}
                     </div>
                   </div>
-                </motion.div>
+
+                  <div>
+                    <label className="block text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-1">Street Address *</label>
+                    <input
+                      type="text"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleInputChange}
+                      placeholder="Bole Subcity, House No..."
+                      className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400/60"
+                    />
+                    {errors.address && <p className="text-red-400 text-[10px] mt-0.5">{errors.address}</p>}
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-1">City *</label>
+                      <input
+                        type="text"
+                        name="city"
+                        value={formData.city}
+                        onChange={handleInputChange}
+                        placeholder="Addis Ababa"
+                        className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400/60"
+                      />
+                      {errors.city && <p className="text-red-400 text-[10px] mt-0.5">{errors.city}</p>}
+                    </div>
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-1">Region *</label>
+                      <select
+                        name="state"
+                        value={formData.state}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-amber-400/60 cursor-pointer"
+                      >
+                        <option value="">Select...</option>
+                        <option value="Addis Ababa">Addis Ababa</option>
+                        <option value="Oromia">Oromia</option>
+                        <option value="Amhara">Amhara</option>
+                        <option value="Tigray">Tigray</option>
+                        <option value="International">International</option>
+                      </select>
+                      {errors.state && <p className="text-red-400 text-[10px] mt-0.5">{errors.state}</p>}
+                    </div>
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-1">Postal Code *</label>
+                      <input
+                        type="text"
+                        name="zip"
+                        value={formData.zip}
+                        onChange={handleInputChange}
+                        placeholder="1000"
+                        className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400/60"
+                      />
+                      {errors.zip && <p className="text-red-400 text-[10px] mt-0.5">{errors.zip}</p>}
+                    </div>
+                  </div>
+                </div>
               )}
 
               {currentStep === 2 && (
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  className="space-y-6"
-                >
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
-                      <CreditCard className="text-blue-500" size={24} />
-                      Payment Method
-                    </h2>
-                    
-                    {errors.paymentMethod && (
-                      <p className="text-red-500 text-sm mb-4">{errors.paymentMethod}</p>
-                    )}
-                    
-                    <div className="space-y-4">
-                      <div
-                        onClick={() => setPaymentMethod('card')}
-                        className={`p-4 border-2 rounded-lg cursor-pointer transition-all duration-300 ${
-                          paymentMethod === 'card' ? 'border-blue-500 bg-blue-500/10 shadow-lg shadow-blue-500/20' : 'border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 hover:border-gray-400 dark:hover:border-gray-500'
-                        }`}
-                      >
-                        <div className="flex items-center space-x-3">
-                          <input
-                            type="radio"
-                            checked={paymentMethod === 'card'}
-                            onChange={() => setPaymentMethod('card')}
-                            className="w-5 h-5 text-blue-600"
-                          />
-                          <div>
-                            <h5 className="font-semibold text-gray-900 dark:text-white">Credit/Debit Card</h5>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">Pay with Visa, Mastercard, or American Express</p>
-                          </div>
-                        </div>
-                      </div>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-sm font-bold text-white border-b border-white/10 pb-2">
+                    <CreditCard size={16} className="text-amber-400" />
+                    <span>Select Payment Method</span>
+                  </div>
 
-                      <div
-                        onClick={() => setPaymentMethod('ethiopian')}
-                        className={`p-4 border-2 rounded-lg cursor-pointer transition-all duration-300 ${
-                          paymentMethod === 'ethiopian' ? 'border-blue-500 bg-blue-500/10 shadow-lg shadow-blue-500/20' : 'border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 hover:border-gray-400 dark:hover:border-gray-500'
-                        }`}
-                      >
-                        <div className="flex items-center space-x-3">
-                          <input
-                            type="radio"
-                            checked={paymentMethod === 'ethiopian'}
-                            onChange={() => setPaymentMethod('ethiopian')}
-                            className="w-5 h-5 text-blue-600"
-                          />
-                          <div>
-                            <h5 className="font-semibold text-gray-900 dark:text-white">Ethiopian Payment Options</h5>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">Pay with CBE Birr, Telebirr, or other local methods</p>
-                          </div>
+                  {errors.paymentMethod && (
+                    <p className="text-red-400 text-xs">{errors.paymentMethod}</p>
+                  )}
+
+                  <div className="space-y-2.5">
+                    {/* Ethiopian Payment Option */}
+                    <div
+                      onClick={() => setPaymentMethod('ethiopian')}
+                      className={`p-3 rounded-xl border cursor-pointer transition-all ${
+                        paymentMethod === 'ethiopian'
+                          ? 'border-amber-400 bg-amber-400/10'
+                          : 'border-white/10 bg-white/[0.02] hover:border-white/20'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="radio"
+                          checked={paymentMethod === 'ethiopian'}
+                          onChange={() => setPaymentMethod('ethiopian')}
+                          className="accent-amber-400"
+                        />
+                        <div>
+                          <p className="text-xs font-bold text-white">Telebirr & CBE Birr</p>
+                          <p className="text-[11px] text-gray-400">Instant direct transfer via Commercial Bank of Ethiopia or Telebirr</p>
                         </div>
                       </div>
 
                       {paymentMethod === 'ethiopian' && (
-                        <div className="mt-6 p-6 bg-gray-50 dark:bg-gray-900 rounded-lg space-y-4 border border-gray-200 dark:border-gray-700">
-                          <h6 className="font-semibold text-gray-900 dark:text-white">Complete Payment</h6>
-                          <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-                            <div className="flex items-center space-x-4">
-                              <img src="/images/cbe.jpg" alt="CBE" className="h-10" />
-                              <div>
-                                <p className="font-semibold text-gray-900 dark:text-white">Commercial Bank of Ethiopia</p>
-                                <p className="text-sm text-gray-600 dark:text-gray-400">Account: 1000311656598</p>
-                                <p className="text-sm text-gray-600 dark:text-gray-400">Name: Boss Clothes PLC</p>
-                              </div>
+                        <div className="mt-3 pt-3 border-t border-white/10 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                          <div className="p-2.5 bg-black/40 rounded-lg border border-white/10 flex items-center gap-2">
+                            <img src="/images/cbe.jpg" alt="CBE" className="w-8 h-8 rounded object-cover" />
+                            <div>
+                              <p className="text-[11px] font-semibold text-white">CBE Account</p>
+                              <p className="text-[10px] text-amber-300 font-mono">1000311656598</p>
+                              <p className="text-[9px] text-gray-400">Boss Clothes PLC</p>
                             </div>
                           </div>
-                          <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-                            <div className="flex items-center space-x-4">
-                              <img src="/images/telebirr.jpeg" alt="Telebirr" className="h-10" />
-                              <div>
-                                <p className="font-semibold text-gray-900 dark:text-white">Telebirr</p>
-                                <p className="text-sm text-gray-600 dark:text-gray-400">Merchant: Boss Clothes</p>
-                                <p className="text-sm text-gray-600 dark:text-gray-400">Code: 09-94-15-61-35</p>
-                              </div>
+                          <div className="p-2.5 bg-black/40 rounded-lg border border-white/10 flex items-center gap-2">
+                            <img src="/images/telebirr.jpeg" alt="Telebirr" className="w-8 h-8 rounded object-cover" />
+                            <div>
+                              <p className="text-[11px] font-semibold text-white">Telebirr Merchant</p>
+                              <p className="text-[10px] text-amber-300 font-mono">09-94-15-61-35</p>
+                              <p className="text-[9px] text-gray-400">Boss Clothes</p>
                             </div>
                           </div>
                         </div>
                       )}
+                    </div>
+
+                    {/* Credit Card Option */}
+                    <div
+                      onClick={() => setPaymentMethod('card')}
+                      className={`p-3 rounded-xl border cursor-pointer transition-all ${
+                        paymentMethod === 'card'
+                          ? 'border-amber-400 bg-amber-400/10'
+                          : 'border-white/10 bg-white/[0.02] hover:border-white/20'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="radio"
+                          checked={paymentMethod === 'card'}
+                          onChange={() => setPaymentMethod('card')}
+                          className="accent-amber-400"
+                        />
+                        <div>
+                          <p className="text-xs font-bold text-white">Credit / Debit Card</p>
+                          <p className="text-[11px] text-gray-400">Visa, MasterCard, American Express</p>
+                        </div>
+                      </div>
 
                       {paymentMethod === 'card' && (
-                        <div className="mt-6 space-y-4">
+                        <div className="mt-3 pt-3 border-t border-white/10 space-y-2.5 text-xs">
                           <div>
-                            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                              Card Number *
-                            </label>
+                            <label className="block text-[11px] text-gray-400 mb-1">Card Number *</label>
                             <input
                               type="text"
                               name="cardNumber"
                               value={formData.cardNumber}
                               onChange={handleInputChange}
-                              placeholder="1234 5678 9012 3456"
-                              maxLength={19}
-                              className={`w-full px-4 py-3 border-2 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                errors.cardNumber ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                              }`}
+                              placeholder="4000 1234 5678 9010"
+                              className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-xs text-white"
                             />
-                            {errors.cardNumber && <p className="text-red-500 text-xs mt-1">{errors.cardNumber}</p>}
+                            {errors.cardNumber && <p className="text-red-400 text-[10px] mt-0.5">{errors.cardNumber}</p>}
                           </div>
-                          <div className="grid grid-cols-2 gap-4">
+                          <div className="grid grid-cols-2 gap-2">
                             <div>
-                              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                                Expiry Date *
-                              </label>
+                              <label className="block text-[11px] text-gray-400 mb-1">Expiry Date *</label>
                               <input
                                 type="text"
                                 name="cardExpiry"
                                 value={formData.cardExpiry}
                                 onChange={handleInputChange}
                                 placeholder="MM/YY"
-                                maxLength={5}
-                                className={`w-full px-4 py-3 border-2 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                  errors.cardExpiry ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                                }`}
+                                className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-xs text-white"
                               />
-                              {errors.cardExpiry && <p className="text-red-500 text-xs mt-1">{errors.cardExpiry}</p>}
                             </div>
                             <div>
-                              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                                CVV *
-                              </label>
+                              <label className="block text-[11px] text-gray-400 mb-1">CVV *</label>
                               <input
                                 type="text"
                                 name="cardCvv"
                                 value={formData.cardCvv}
                                 onChange={handleInputChange}
                                 placeholder="123"
-                                maxLength={4}
-                                className={`w-full px-4 py-3 border-2 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                  errors.cardCvv ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                                }`}
+                                className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-xs text-white"
                               />
-                              {errors.cardCvv && <p className="text-red-500 text-xs mt-1">{errors.cardCvv}</p>}
                             </div>
                           </div>
                         </div>
                       )}
                     </div>
                   </div>
-                </motion.div>
+                </div>
               )}
 
               {currentStep === 3 && (
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  className="space-y-6"
-                >
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                    <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Review Your Order</h4>
-                    
-                    <div className="space-y-6">
-                      <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
-                        <h5 className="font-semibold mb-2 text-gray-900 dark:text-white">Shipping Information</h5>
-                        <p className="text-gray-600 dark:text-gray-300">{formData.firstName} {formData.lastName}</p>
-                        <p className="text-gray-600 dark:text-gray-300">{formData.email}</p>
-                        <p className="text-gray-600 dark:text-gray-300">{formData.phone}</p>
-                        <p className="text-gray-600 dark:text-gray-300">{formData.address}, {formData.city}, {formData.state}, {formData.zip}</p>
-                      </div>
+                <div className="space-y-4 text-xs">
+                  <div className="flex items-center gap-2 text-sm font-bold text-white border-b border-white/10 pb-2">
+                    <CheckCircle size={16} className="text-amber-400" />
+                    <span>Review & Authorize Order</span>
+                  </div>
 
-                      <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
-                        <h5 className="font-semibold mb-2 text-gray-900 dark:text-white">Payment Method</h5>
-                        <p className="text-gray-600 dark:text-gray-300">
-                          {paymentMethod === 'card' ? 'Credit/Debit Card' : 'Ethiopian Payment'}
-                        </p>
-                        {paymentMethod === 'card' && (
-                          <p className="text-gray-600 dark:text-gray-300 text-sm">
-                            Card ending in {formData.cardNumber.slice(-4)}
-                          </p>
-                        )}
-                      </div>
+                  <div className="p-3.5 bg-black/30 rounded-xl border border-white/10 space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400 font-medium">Deliver to:</span>
+                      <span className="text-white font-semibold">{formData.firstName} {formData.lastName}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400 font-medium">Address:</span>
+                      <span className="text-white text-right">{formData.address}, {formData.city}, {formData.state}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400 font-medium">Contact:</span>
+                      <span className="text-white">{formData.phone} • {formData.email}</span>
+                    </div>
+                    <div className="flex justify-between border-t border-white/5 pt-2">
+                      <span className="text-gray-400 font-medium">Payment Mode:</span>
+                      <span className="text-amber-300 font-semibold">{paymentMethod === 'card' ? 'Credit Card' : 'Telebirr / CBE'}</span>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               )}
 
-              <div className="flex justify-between mt-6">
+              {/* Navigation buttons */}
+              <div className="flex items-center justify-between pt-4 border-t border-white/10">
                 {currentStep > 1 && (
                   <button
                     onClick={() => setCurrentStep(currentStep - 1)}
-                    className="px-6 py-3 border-2 border-blue-500 text-blue-500 rounded-lg font-semibold hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-all flex items-center space-x-2"
+                    className="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-semibold flex items-center gap-1.5 transition-colors"
                   >
-                    <ChevronLeft size={20} />
-                    <span>Back</span>
+                    <ChevronLeft size={13} />
+                    <span>Previous</span>
                   </button>
                 )}
+                
                 <button
                   onClick={handleNextStep}
                   disabled={loading}
-                  className={`ml-auto px-8 py-3 rounded-lg font-semibold transition-all transform hover:scale-105 ${
-                    loading 
-                      ? 'bg-gray-400 cursor-not-allowed' 
-                      : 'bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-700 hover:to-blue-600 shadow-lg hover:shadow-blue-500/50'
-                  }`}
+                  className="ml-auto px-6 py-2 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-bold text-xs uppercase tracking-wider shadow-md transition-all active:scale-95 disabled:opacity-50"
                 >
-                  {loading ? 'Processing...' : currentStep === 3 ? 'Place Order' : 'Continue'}
+                  {loading ? 'Processing...' : currentStep === 3 ? 'Authorize Order' : 'Continue'}
                 </button>
               </div>
             </div>
 
-            {/* Order Summary Sidebar */}
+            {/* Sidebar Summary - Compact */}
             <div className="lg:col-span-1">
-              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sticky top-24 border border-gray-200 dark:border-gray-700">
-                <h5 className="text-xl font-bold mb-6 text-gray-900 dark:text-white">Order Summary</h5>
-                
-                <div className="space-y-3 mb-6 max-h-64 overflow-y-auto">
+              <div className="bg-black/30 rounded-xl p-4 border border-white/10 space-y-3">
+                <h3 className="text-xs uppercase tracking-widest text-amber-400 font-semibold pb-2 border-b border-white/10">
+                  Cart Items ({cart.reduce((s, i) => s + i.quantity, 0)})
+                </h3>
+
+                <div className="space-y-2 max-h-48 overflow-y-auto divide-y divide-white/5">
                   {cart.map((item) => (
-                    <div key={item.id} className="flex gap-3 pb-3 border-b border-gray-200 dark:border-gray-700">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-16 h-16 object-cover rounded-lg"
-                      />
-                      <div className="flex-1">
-                        <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                          {item.name}
-                        </p>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">
-                          Qty: {item.quantity}
-                        </p>
-                        <p className="text-sm font-bold text-blue-500">
-                          ${(item.price * item.quantity).toFixed(2)}
-                        </p>
+                    <div key={item.id} className="pt-2 first:pt-0 flex items-center gap-2.5">
+                      <img src={item.image} alt={item.name} className="w-10 h-12 rounded object-cover object-top flex-shrink-0" />
+                      <div className="flex-1 min-w-0 text-xs">
+                        <p className="font-semibold text-white truncate">{item.name}</p>
+                        <p className="text-[10px] text-gray-400">Qty: {item.quantity} × ${item.price}</p>
                       </div>
+                      <span className="text-xs font-bold text-amber-300">${(item.price * item.quantity).toFixed(2)}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="space-y-3 mb-6">
-                  <div className="flex justify-between text-gray-600 dark:text-gray-400">
+                <div className="pt-2 border-t border-white/10 space-y-1.5 text-xs">
+                  <div className="flex justify-between text-gray-400">
                     <span>Subtotal</span>
-                    <span className="font-semibold text-gray-900 dark:text-white">
-                      ${subtotal.toFixed(2)}
-                    </span>
+                    <span className="text-white">${subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between text-gray-600 dark:text-gray-400">
+                  <div className="flex justify-between text-gray-400">
                     <span>Shipping</span>
-                    <span className="font-semibold text-gray-900 dark:text-white">
-                      {shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}
-                    </span>
+                    <span className="text-white">{shipping === 0 ? <span className="text-emerald-400 font-semibold">FREE</span> : `$${shipping.toFixed(2)}`}</span>
                   </div>
-                  <div className="flex justify-between text-gray-600 dark:text-gray-400">
-                    <span>Tax</span>
-                    <span className="font-semibold text-gray-900 dark:text-white">
-                      ${tax.toFixed(2)}
-                    </span>
+                  <div className="flex justify-between text-gray-400">
+                    <span>Tax (8%)</span>
+                    <span className="text-white">${tax.toFixed(2)}</span>
                   </div>
-                  <div className="pt-3 border-t-2 border-gray-200 dark:border-gray-700">
-                    <div className="flex justify-between text-xl font-bold text-gray-900 dark:text-white">
-                      <span>Total</span>
-                      <span className="text-blue-500">${total.toFixed(2)}</span>
-                    </div>
+                  <div className="pt-2 border-t border-white/10 flex justify-between items-baseline">
+                    <span className="font-semibold text-white">Total</span>
+                    <span className="text-base font-bold text-amber-300">${total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>

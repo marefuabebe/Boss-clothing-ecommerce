@@ -1,331 +1,216 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { FaLeaf, FaHandsHelping, FaStar, FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { FaLeaf, FaHandsHelping, FaAward, FaQuoteLeft } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const teamMembers = [
   {
     id: 1,
-    name: 'Marefu-Abebe',
-    role: 'Founder & CEO',
+    name: 'Marefu Abebe',
+    role: 'Founder & Designer',
     image: '/images/Black.jpg',
+    bio: 'Created Boss Clothe to bring great fashion, high quality fabrics, and modern style to everyone.'
   },
   {
     id: 2,
-    name: 'Netsanet-Belete',
-    role: 'Marketing Director',
+    name: 'Netsanet Belete',
+    role: 'Customer Care & Marketing',
     image: '/images/Urban style.avif',
+    bio: 'Manages customer service, store styles, and helps you find the right fit and size.'
   },
   {
     id: 3,
-    name: 'Michael-Tsegaye',
-    role: 'Head Designer',
+    name: 'Michael Tsegaye',
+    role: 'Master Tailor',
     image: '/images/designer.png',
+    bio: 'Over 20 years of tailoring experience ensuring every jacket and shirt fits comfortably.'
   },
 ];
 
 const values = [
   {
     icon: FaLeaf,
-    title: 'Sustainability',
-    description: 'We use eco-friendly materials and processes to minimize our environmental impact. Our packaging is 100% recyclable.',
-    color: 'text-green-500',
+    title: 'Natural & Safe Materials',
+    description: 'We use organic cotton and natural materials that are comfortable and good for the environment.',
   },
   {
     icon: FaHandsHelping,
-    title: 'Ethical Production',
-    description: 'All our garments are produced in fair-wage, safe working conditions. We support local Ethiopian artisans and communities.',
-    color: 'text-blue-500',
+    title: 'Fair & Honest Work',
+    description: 'Every piece is made in Addis Ababa by skilled workers who receive fair wages and respect.',
   },
   {
-    icon: FaStar,
-    title: 'Quality Craftsmanship',
-    description: 'We take pride in the quality of our products. Each piece is carefully designed and crafted to ensure longevity and style.',
-    color: 'text-yellow-500',
+    icon: FaAward,
+    title: 'Attention to Detail',
+    description: 'Every stitch, button, and zipper is inspected so your clothes look sharp and last for years.',
   },
 ];
 
 const About = () => {
-  const videoRef = useRef(null);
-
-  useEffect(() => {
-    // Try to play the video automatically
-    if (videoRef.current) {
-      const playVideo = async () => {
-        try {
-          await videoRef.current.play();
-        } catch (error) {
-          console.log("Autoplay prevented, video will play when user interacts");
-          // Add a play button overlay if autoplay fails
-        }
-      };
-      playVideo();
-    }
-  }, []);
-
   return (
-    <div className="min-h-screen bg-gray-900 py-12">
-      <div className="container mx-auto px-4">
-        {/* Header Section */}
-        <div className="text-center mb-12">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-4xl md:text-5xl font-bold text-white mb-3"
-          >
+    <div className="min-h-screen bg-[#0B0B0F] text-gray-100 py-6 sm:py-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        {/* Header - Compact */}
+        <div className="text-center max-w-2xl mx-auto mb-8">
+          <span className="text-[10px] uppercase tracking-[0.25em] text-amber-400 font-semibold block mb-1">
             Our Story
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-gray-400 text-lg"
-          >
-            Discover the journey of Boss Clothe
-          </motion.p>
+          </span>
+          <h1 className="text-2xl sm:text-4xl font-bold font-playfair text-white mb-2">
+            About Boss Clothe
+          </h1>
+          <p className="text-xs sm:text-sm text-gray-400">
+            Founded in Addis Ababa in 2017, Boss Clothe makes modern, stylish, and comfortable clothes with high quality materials.
+          </p>
         </div>
 
-        {/* Who We Are */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col justify-center"
-          >
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Who We Are</h2>
-            <p className="text-gray-300 mb-3 leading-relaxed text-sm md:text-base">
-              Boss Clothes was founded in 2017 with a simple mission: to provide high-quality, fashionable clothing at affordable prices. Our founder, Marefu Abebe, started with a small boutique in Addis Ababa and has since grown into a beloved national brand.
-            </p>
-            <p className="text-gray-300 leading-relaxed text-sm md:text-base">
-              We believe that everyone deserves to look and feel their best without breaking the bank. Our collections are carefully curated to reflect the latest trends while maintaining timeless elegance and comfort.
-            </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="rounded-xl overflow-hidden shadow-lg"
-          >
-            <img
-              src="/images/Discover the journey of Boos Clothes.avif"
-              alt="Our Store"
-              className="w-full h-64 md:h-80 object-cover"
-            />
-          </motion.div>
-        </div>
-
-        {/* Video Section - Fixed */}
-        <div className="mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-6"
-          >
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Our Vision in Motion</h2>
-            <p className="text-gray-400 text-sm">See how we bring style to life</p>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-            className="relative rounded-xl overflow-hidden shadow-2xl bg-black"
-          >
-            <div className="relative aspect-video">
-              {/* 
-                VIDEO PATH: Make sure your video is at: public/videos/0807/bossclothe.mp4
-                The correct path in public folder should be: /videos/0807/bossclothe.mp4
-              */}
-              <video
-                ref={videoRef}
-                className="w-full h-full object-cover"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
-                controls
-                poster="/images/video-poster.jpg" // Optional: Add a poster image
-              >
-                <source 
-                  src="/videos/0807/bossclothe.mp4" 
-                  type="video/mp4" 
-                />
-                <source 
-                  src="/videos/0807/bossclothe.mp4" 
-                  type="video/mp4" 
-                />
-                Your browser does not support the video tag.
-              </video>
+        {/* Narrative Split Section - Compact */}
+        <section className="bg-[#121218] rounded-2xl border border-white/10 p-5 sm:p-8 mb-8 shadow-xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+            <div>
+              <span className="text-[10px] uppercase tracking-widest text-amber-400 font-semibold block mb-1">
+                Our Mission
+              </span>
+              <h2 className="text-xl sm:text-2xl font-bold font-playfair text-white mb-3">
+                Quality Clothes Made with Pride
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-300 leading-relaxed mb-3">
+                What began as a small clothing studio in Bole, Addis Ababa, has grown into a store loved for great fits, comfortable fabrics, and honest prices.
+              </p>
+              <p className="text-xs sm:text-sm text-gray-400 leading-relaxed mb-4">
+                We believe everyone deserves well-made clothes that feel comfortable and look sharp. Every item we make is designed to last and stay in style.
+              </p>
               
-              {/* Fallback if video doesn't load */}
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-800 hidden" id="video-fallback">
-                <p className="text-white text-center p-4">
-                  Video cannot be loaded. 
-                  <br />
-                  <small className="text-gray-400">
-                    
-                  </small>
+              <div className="p-3 bg-white/[0.03] rounded-xl border border-white/5 flex items-start gap-3">
+                <FaQuoteLeft className="text-amber-400/50 text-base flex-shrink-0 mt-0.5" />
+                <p className="text-xs text-amber-200/90 italic">
+                  "True quality is about great materials, comfortable fits, and clothes that last."
                 </p>
               </div>
             </div>
-            
-            {/* Video caption */}
-            <div className="bg-gray-800 p-4">
-              <p className="text-gray-300 text-center text-sm">
-                Behind the scenes at Boss Clothes - Crafting quality fashion since 2017
-              </p>
-            </div>
-          </motion.div>
 
-          {/* Video Loading Error Message */}
-          <div className="mt-4 text-center">
-            <p className="text-gray-400 text-xs">
-              Note: The video plays automatically without sound. Click the video controls to adjust volume.
-            </p>
-            <p className="text-gray-500 text-xs mt-2">
-              If video doesn't play, check the file exists at: <code className="bg-gray-800 px-2 py-1 rounded">public/videos/0807/0807.mp4</code>
-            </p>
-          </div>
-        </div>
-
-        {/* Our Mission */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="order-2 md:order-1 rounded-xl overflow-hidden shadow-lg"
-          >
-            <img
-              src="/images/store221.avif"
-              alt="Our Mission"
-              className="w-full h-64 md:h-80 object-cover"
-            />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="order-1 md:order-2 flex flex-col justify-center"
-          >
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Our Mission</h2>
-            <p className="text-gray-300 mb-3 leading-relaxed text-sm md:text-base">
-              At Boss Clothes, we're committed to sustainable fashion practices and ethical manufacturing. We work directly with Ethiopian artisans to create unique pieces that celebrate our cultural heritage while embracing modern design.
-            </p>
-            <p className="text-gray-300 leading-relaxed text-sm md:text-base">
-              Our goal is to empower customers to express their personal style while making a positive impact on our community and the environment.
-            </p>
-          </motion.div>
-        </div>
-
-        {/* Our Values */}
-        <div className="text-center mb-12">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-2xl md:text-3xl font-bold text-white mb-2"
-          >
-            Our Values
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-gray-400 text-sm"
-          >
-            The principles that guide everything we do
-          </motion.p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-          {values.map((value, index) => (
-            <motion.div
-              key={value.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="bg-gray-800 rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow border border-gray-700"
-            >
-              <value.icon className={`text-5xl ${value.color} mx-auto mb-4`} />
-              <h3 className="text-xl font-bold mb-3 text-white">{value.title}</h3>
-              <p className="text-gray-300 leading-relaxed text-sm">{value.description}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Meet Our Team */}
-        <div className="text-center mb-12">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-2xl md:text-3xl font-bold text-white mb-2"
-          >
-            Meet Our Team
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-gray-400 text-sm"
-          >
-            The passionate people behind Boss Clothes
-          </motion.p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {teamMembers.map((member, index) => (
-            <motion.div
-              key={member.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="bg-gray-800 rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-all hover:-translate-y-1 border border-gray-700"
-            >
+            <div className="relative aspect-[4/3] rounded-xl overflow-hidden border border-white/10">
               <img
-                src={member.image}
-                alt={member.name}
-                className="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-gray-700"
+                src="/images/Discover the journey of Boos Clothes.avif"
+                alt="Boss Atelier Studio"
+                className="w-full h-full object-cover"
               />
-              <h4 className="text-xl font-bold mb-2 text-white">{member.name}</h4>
-              <p className="text-gray-400 mb-4 text-sm">{member.role}</p>
-              <div className="flex justify-center space-x-3">
-                <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
-                  <FaFacebook className="text-xl" />
-                </a>
-                <a href="#" className="text-gray-400 hover:text-blue-300 transition-colors">
-                  <FaTwitter className="text-xl" />
-                </a>
-                <a href="#" className="text-gray-400 hover:text-pink-500 transition-colors">
-                  <FaInstagram className="text-xl" />
-                </a>
-                <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors">
-                  <FaLinkedin className="text-xl" />
-                </a>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+            </div>
+          </div>
+        </section>
 
-        {/* Footer Note */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-center mt-16 pt-8 border-t border-gray-800"
-        >
-          <h3 className="text-xl font-bold text-white mb-3">Join Our Journey</h3>
-          <p className="text-gray-400 max-w-2xl mx-auto text-sm mb-4">
-            From a small boutique in Addis Ababa to a national fashion destination, we continue to grow while staying true to our roots.
+        {/* Core Values - Compact Cards */}
+        <section className="mb-8">
+          <div className="text-center mb-5">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-amber-400 font-semibold block mb-0.5">
+              What We Believe
+            </span>
+            <h2 className="text-xl sm:text-2xl font-bold font-playfair text-white">
+              Our Core Values
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+            {values.map((v) => {
+              const Icon = v.icon;
+              return (
+                <div 
+                  key={v.title}
+                  className="bg-[#121218] p-4 rounded-xl border border-white/10 hover:border-amber-400/30 transition-all"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-amber-400/10 border border-amber-400/20 text-amber-400 flex items-center justify-center mb-3">
+                    <Icon size={16} />
+                  </div>
+                  <h3 className="text-sm font-bold text-white mb-1 font-playfair">{v.title}</h3>
+                  <p className="text-xs text-gray-400 leading-relaxed">{v.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Leadership Team - Compact Cards */}
+        <section className="mb-8">
+          <div className="text-center mb-5">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-amber-400 font-semibold block mb-0.5">
+              Our Team
+            </span>
+            <h2 className="text-xl sm:text-2xl font-bold font-playfair text-white">
+              The People Behind Boss Clothe
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {teamMembers.map((member) => (
+              <div 
+                key={member.id}
+                className="bg-[#121218] rounded-xl overflow-hidden border border-white/10 group"
+              >
+                <div className="aspect-[4/3] overflow-hidden bg-black/40">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-3.5">
+                  <h3 className="text-sm font-bold text-white font-playfair">{member.name}</h3>
+                  <p className="text-[11px] text-amber-400 font-medium mb-1.5">{member.role}</p>
+                  <p className="text-xs text-gray-400 leading-relaxed">{member.bio}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* SECTION 4: Heritage Milestones */}
+        <section className="mb-8">
+          <div className="text-center mb-5">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-amber-400 font-semibold block mb-0.5">
+              Our History
+            </span>
+            <h2 className="text-xl sm:text-2xl font-bold font-playfair text-white">
+              The Journey of Boss Clothe
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+            <div className="p-3.5 bg-[#121218] rounded-xl border border-white/10 text-center">
+              <span className="text-amber-400 font-bold font-playfair text-lg block">2017</span>
+              <h4 className="text-xs font-semibold text-white mt-1">Started in Bole</h4>
+              <p className="text-[11px] text-gray-400 mt-1">First store founded by Marefu Abebe in Addis Ababa, specializing in tailored clothes.</p>
+            </div>
+            <div className="p-3.5 bg-[#121218] rounded-xl border border-white/10 text-center">
+              <span className="text-amber-400 font-bold font-playfair text-lg block">2020</span>
+              <h4 className="text-xs font-semibold text-white mt-1">More Styles Added</h4>
+              <p className="text-[11px] text-gray-400 mt-1">Added dresses, denim jeans, and leather bags to our store collection.</p>
+            </div>
+            <div className="p-3.5 bg-[#121218] rounded-xl border border-white/10 text-center">
+              <span className="text-amber-400 font-bold font-playfair text-lg block">2023</span>
+              <h4 className="text-xs font-semibold text-white mt-1">Local Natural Cotton</h4>
+              <p className="text-[11px] text-gray-400 mt-1">Began using 100% natural Ethiopian cotton and eco-friendly dyes.</p>
+            </div>
+            <div className="p-3.5 bg-[#121218] rounded-xl border border-white/10 text-center">
+              <span className="text-amber-400 font-bold font-playfair text-lg block">2026</span>
+              <h4 className="text-xs font-semibold text-white mt-1">Online Store</h4>
+              <p className="text-[11px] text-gray-400 mt-1">Launched our modern online shop with fast delivery across Ethiopia and worldwide.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION 5: CTA Banner */}
+        <section className="p-6 bg-gradient-to-r from-amber-400/15 via-amber-400/5 to-transparent rounded-2xl border border-amber-400/30 text-center">
+          <h3 className="text-lg sm:text-xl font-bold font-playfair text-white mb-2">
+            Try Boss Clothe Today
+          </h3>
+          <p className="text-xs text-gray-300 mb-4 max-w-md mx-auto">
+            Discover our collection of comfortable jackets, shirts, jeans, and dresses.
           </p>
-          <p className="text-gray-500 text-xs">
-            Boss Clothes © 2017 - {new Date().getFullYear()}. All rights reserved.
-          </p>
-        </motion.div>
+          <Link
+            to="/shop"
+            className="inline-block px-5 py-2.5 rounded-full bg-amber-400 hover:bg-amber-300 text-black font-semibold text-xs tracking-wider uppercase transition-colors shadow-md"
+          >
+            Shop All Clothes
+          </Link>
+        </section>
       </div>
     </div>
   );

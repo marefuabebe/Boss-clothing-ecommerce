@@ -1,149 +1,134 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { FaFacebook, FaTwitter, FaInstagram, FaPinterest, FaLinkedin } from 'react-icons/fa';
+import { FaInstagram, FaTwitter, FaFacebook, FaWhatsapp, FaArrowRight } from 'react-icons/fa';
 
 const Footer = () => {
-  const socialLinks = [
-    { icon: FaFacebook, href: '#', label: 'Facebook' },
-    { icon: FaTwitter, href: '#', label: 'Twitter' },
-    { icon: FaInstagram, href: '#', label: 'Instagram' },
-    { icon: FaPinterest, href: '#', label: 'Pinterest' },
-  ];
-
   return (
-    <footer className="bg-gray-800 text-white py-8 sm:py-12 border-t border-gray-700">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <h5 className="text-lg sm:text-xl font-bold mb-4">Boss Clothes</h5>
-            <p className="text-gray-400 mb-4 text-sm sm:text-base">
-              Your one-stop shop for the latest fashion trends and premium quality clothing.
+    <footer className="bg-[#08080C] text-gray-300 border-t border-white/10 pt-8 pb-14 lg:pb-8 text-xs">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+          {/* Column 1: Brand (2 cols on lg) */}
+          <div className="lg:col-span-2 space-y-3">
+            <Link to="/" className="flex items-center gap-2">
+              <span className="font-playfair font-black text-2xl tracking-wide text-white">
+                Boss Clothe
+              </span>
+            </Link>
+            
+            <p className="text-gray-400 text-xs leading-relaxed max-w-sm">
+              Modern clothing and fashion store based in Addis Ababa, Ethiopia. High quality clothes, great style, and fast delivery.
             </p>
-            <div className="flex space-x-4">
-              {socialLinks.map((social, index) => {
-                const Icon = social.icon;
-                return (
-                  <motion.a
-                    key={social.label}
-                    href={social.href}
-                    initial={{ opacity: 0, scale: 0 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ scale: 1.2, y: -2 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="text-gray-400 hover:text-primary transition-colors"
-                    aria-label={social.label}
-                  >
-                    <Icon className="text-xl sm:text-2xl" />
-                  </motion.a>
-                );
-              })}
-            </div>
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            <h5 className="text-lg sm:text-xl font-bold mb-4">Quick Links</h5>
-            <div className="space-y-2">
-              {['/', '/shop', '/gallery', '/about', '/contact'].map((path, index) => {
-                const labels = { '/': 'Home', '/shop': 'Shop', '/gallery': 'Gallery', '/about': 'About', '/contact': 'Contact' };
-                return (
-                  <motion.div
-                    key={path}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.05 }}
-                  >
-                    <Link
-                      to={path}
-                      className="block text-gray-400 hover:text-white transition-colors text-sm sm:text-base"
-                    >
-                      {labels[path]}
-                    </Link>
-                  </motion.div>
-                );
-              })}
+            <div className="flex items-center gap-2 pt-1">
+              <a
+                href="https://wa.me/251938543853"
+                target="_blank"
+                rel="noreferrer"
+                className="w-8 h-8 rounded-full bg-white/5 hover:bg-amber-400 hover:text-black border border-white/10 flex items-center justify-center transition-colors text-xs"
+                aria-label="WhatsApp"
+              >
+                <FaWhatsapp />
+              </a>
+              <a
+                href="#"
+                className="w-8 h-8 rounded-full bg-white/5 hover:bg-amber-400 hover:text-black border border-white/10 flex items-center justify-center transition-colors text-xs"
+                aria-label="Instagram"
+              >
+                <FaInstagram />
+              </a>
+              <a
+                href="#"
+                className="w-8 h-8 rounded-full bg-white/5 hover:bg-amber-400 hover:text-black border border-white/10 flex items-center justify-center transition-colors text-xs"
+                aria-label="Twitter"
+              >
+                <FaTwitter />
+              </a>
+              <a
+                href="#"
+                className="w-8 h-8 rounded-full bg-white/5 hover:bg-amber-400 hover:text-black border border-white/10 flex items-center justify-center transition-colors text-xs"
+                aria-label="Facebook"
+              >
+                <FaFacebook />
+              </a>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <h5 className="text-lg sm:text-xl font-bold mb-4">Customer Service</h5>
-            <div className="space-y-2">
-              {['FAQs', 'Shipping Policy', 'Returns & Exchanges', 'Contact Support'].map((item, index) => (
-                <motion.a
-                  key={item}
-                  href="#"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
-                  className="block text-gray-400 hover:text-white transition-colors text-sm sm:text-base"
-                >
-                  {item}
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
+          {/* Column 2: Shop Clothes */}
+          <div>
+            <h4 className="text-[11px] uppercase tracking-[0.15em] text-amber-400 font-semibold mb-3">
+              Shop Clothes
+            </h4>
+            <ul className="space-y-2 text-gray-400">
+              <li><Link to="/shop?category=tops" className="hover:text-amber-300 transition-colors">Tops & Shirts</Link></li>
+              <li><Link to="/shop?category=bottoms" className="hover:text-amber-300 transition-colors">Pants & Jeans</Link></li>
+              <li><Link to="/shop?category=dresses" className="hover:text-amber-300 transition-colors">Dresses</Link></li>
+              <li><Link to="/shop?category=shoes" className="hover:text-amber-300 transition-colors">Shoes & Sneakers</Link></li>
+              <li><Link to="/shop?category=accessories" className="hover:text-amber-300 transition-colors">Bags & Accessories</Link></li>
+            </ul>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <h5 className="text-lg sm:text-xl font-bold mb-4">Newsletter</h5>
-            <p className="text-gray-400 mb-4 text-sm sm:text-base">
-              Subscribe to get special offers, free giveaways, and new arrivals
+          {/* Column 3: Help & Information */}
+          <div>
+            <h4 className="text-[11px] uppercase tracking-[0.15em] text-amber-400 font-semibold mb-3">
+              Help & Information
+            </h4>
+            <ul className="space-y-2 text-gray-400">
+              <li><Link to="/gallery" className="hover:text-amber-300 transition-colors">Photo Gallery</Link></li>
+              <li><Link to="/about" className="hover:text-amber-300 transition-colors">About Us</Link></li>
+              <li><Link to="/contact" className="hover:text-amber-300 transition-colors">Contact Us</Link></li>
+              <li><Link to="/cart" className="hover:text-amber-300 transition-colors">Free Delivery Info</Link></li>
+              <li><Link to="/contact" className="hover:text-amber-300 transition-colors">30-Day Returns</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 4: Newsletter */}
+          <div>
+            <h4 className="text-[11px] uppercase tracking-[0.15em] text-amber-400 font-semibold mb-3">
+              Newsletter
+            </h4>
+            <p className="text-gray-400 text-[11px] mb-2.5">
+              Get updates on new clothes, discounts, and sales.
             </p>
-            <form className="flex">
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                alert("Thank you for subscribing to our newsletter!");
+              }}
+              className="flex items-center"
+            >
               <input
                 type="email"
-                placeholder="Your email"
-                className="flex-1 px-3 sm:px-4 py-2 rounded-l-lg text-gray-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+                placeholder="Enter your email"
+                className="flex-1 min-w-0 px-3 py-2 bg-black/50 border border-white/10 rounded-l-lg text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400/60"
               />
-              <motion.button
+              <button
                 type="submit"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-primary hover:bg-primary-dark px-4 py-2 rounded-r-lg transition-colors"
+                className="px-3 py-2 bg-amber-400 hover:bg-amber-300 text-black font-semibold rounded-r-lg transition-colors flex items-center justify-center"
                 aria-label="Subscribe"
               >
-                <FaPinterest />
-              </motion.button>
+                <FaArrowRight className="text-xs" />
+              </button>
             </form>
-          </motion.div>
+          </div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="border-t border-gray-700 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center text-gray-400 text-sm sm:text-base"
-        >
-          <p>&copy; 2025 Boss Clothes. All rights reserved.</p>
-        </motion.div>
+        {/* Bottom Bar - Compact */}
+        <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-gray-500 text-[11px] gap-2">
+          <p>&copy; {new Date().getFullYear()} Boss Clothe. All Rights Reserved.</p>
+          <div className="flex items-center gap-3">
+            <span>Telebirr</span>
+            <span>•</span>
+            <span>CBE Birr</span>
+            <span>•</span>
+            <span>Visa</span>
+            <span>•</span>
+            <span>Mastercard</span>
+          </div>
+        </div>
       </div>
     </footer>
   );
 };
 
 export default Footer;
-

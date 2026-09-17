@@ -12,7 +12,7 @@
   }
   
   body {
-    @apply font-sans bg-gray-900 text-gray-100;
+    @apply font-sans bg-[#0B0B0F] text-gray-100;
     overflow-x: hidden;
   }
   
@@ -22,68 +22,60 @@
 }
 
 @layer components {
+  /* Compact & Refined Buttons */
   .btn-primary {
-    @apply bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-500/50;
+    @apply bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:to-amber-500 text-black font-semibold py-2 px-5 rounded-full transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/25 text-xs sm:text-sm tracking-wide;
   }
   
   .btn-secondary {
-    @apply bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold py-2 px-5 rounded-lg transition-all duration-300;
+    @apply bg-white/10 hover:bg-white/15 text-white font-medium py-2 px-4 rounded-full transition-all duration-300 border border-white/10 text-xs sm:text-sm backdrop-blur-sm;
   }
   
   .btn-outline {
-    @apply border-2 border-blue-500 text-blue-400 hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-500 hover:text-white font-semibold py-2 px-5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30;
+    @apply border border-amber-400/60 text-amber-300 hover:bg-amber-400 hover:text-black font-medium py-2 px-4 rounded-full transition-all duration-300 hover:shadow-md hover:shadow-amber-500/20 text-xs sm:text-sm tracking-wide;
   }
   
   .section-title {
-    @apply text-4xl md:text-5xl font-bold text-center mb-10 relative;
+    @apply text-xl sm:text-2xl font-bold text-center mb-5 relative tracking-tight font-playfair;
   }
   
   .section-title::after {
-    @apply content-[''] absolute bottom-[-15px] left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-blue-500 to-blue-400;
+    @apply content-[''] absolute bottom-[-6px] left-1/2 transform -translate-x-1/2 w-10 h-0.5 bg-gradient-to-r from-amber-400 to-amber-200;
   }
   
   .product-card {
-    @apply bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2;
+    @apply bg-[#14141D]/90 rounded-xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-white/5 hover:border-amber-400/30;
   }
   
   .category-card {
-    @apply relative rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 h-80;
-  }
-  
-  .notification {
-    @apply fixed top-24 right-5 z-50 bg-white rounded-lg shadow-xl p-4 max-w-sm animate-slide-in;
+    @apply relative rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 h-56 border border-white/10;
   }
   
   .modal-overlay {
-    @apply fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4;
+    @apply fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-3;
   }
   
   .modal-content {
-    @apply bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-scale-in;
-  }
-  
-  .scroll-reveal {
-    @apply opacity-0 translate-y-10 transition-all duration-700 ease-out;
-  }
-  
-  .scroll-reveal.revealed {
-    @apply opacity-100 translate-y-0;
+    @apply bg-[#13131A] rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/10 animate-scale-in;
   }
   
   .gradient-text {
-    @apply bg-gradient-to-r from-blue-500 via-blue-400 to-blue-300 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-amber-200 via-amber-400 to-amber-100 bg-clip-text text-transparent;
   }
   
-  .glass-effect {
-    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  .glass-panel {
+    @apply bg-[#13131A]/85 backdrop-blur-xl border border-white/10 shadow-xl;
+  }
+  
+  .glass-card {
+    @apply bg-white/[0.03] hover:bg-white/[0.06] backdrop-blur-md border border-white/10 transition-all duration-300;
   }
   
   .hover-lift {
-    @apply transition-transform duration-300 hover:-translate-y-2;
+    @apply transition-transform duration-300 hover:-translate-y-1;
   }
   
   .skeleton {
-    @apply bg-gray-700 animate-pulse rounded;
+    @apply bg-white/5 animate-pulse rounded;
   }
 }
-

@@ -7,7 +7,6 @@ import { products } from '../data/products';
 const SearchBar = ({ isOpen, onClose }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [isSearching, setIsSearching] = useState(false);
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -19,21 +18,19 @@ const SearchBar = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (searchQuery.trim().length > 0) {
-      setIsSearching(true);
       const filtered = products.filter(
         (product) =>
           product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           product.category.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      setFilteredProducts(filtered.slice(0, 5));
-      setIsSearching(false);
+      setFilteredProducts(filtered.slice(0, 6));
     } else {
       setFilteredProducts([]);
     }
   }, [searchQuery]);
 
   const handleProductClick = (product) => {
-    navigate(`/shop`);
+    navigate(`/shop?category=${product.category}`);
     setSearchQuery('');
     onClose();
   };
@@ -53,71 +50,69 @@ const SearchBar = ({ isOpen, onClose }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black bg-opacity-50 z-50"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
           />
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed top-20 left-1/2 transform -translate-x-1/2 w-full max-w-2xl z-50 px-4"
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.2 }}
+            className="fixed top-16 left-1/2 -translate-x-1/2 w-full max-w-xl z-50 px-4"
           >
-            <div className="bg-gray-800 rounded-xl shadow-2xl border border-gray-700 overflow-hidden">
-              <div className="flex items-center px-4 py-3 border-b border-gray-700">
-                <FaSearch className="text-gray-400 mr-3" />
+            <div className="bg-[#121218] rounded-2xl shadow-2xl border border-white/10 overflow-hidden">
+              <div className="flex items-center px-4 py-2.5 border-b border-white/10">
+                <FaSearch className="text-amber-400 mr-2.5 text-xs" />
                 <input
                   ref={inputRef}
                   type="text"
-                  placeholder="Search products..."
+                  placeholder="Search silhouettes, blazers, denim, shoes..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none"
+                  className="flex-1 bg-transparent text-xs sm:text-sm text-white placeholder-gray-500 outline-none"
                 />
                 <button
                   onClick={onClose}
-                  className="ml-3 text-gray-400 hover:text-white transition-colors"
+                  className="ml-2 w-6 h-6 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center transition-colors"
                 >
-                  <FaTimes />
+                  <FaTimes size={10} />
                 </button>
               </div>
+
               <AnimatePresence>
                 {filteredProducts.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="max-h-96 overflow-y-auto"
-                  >
-                    {filteredProducts.map((product, index) => (
-                      <motion.div
+                  <div className="max-h-80 overflow-y-auto divide-y divide-white/5">
+                    {filteredProducts.map((product) => (
+                      <div
                         key={product.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.05 }}
                         onClick={() => handleProductClick(product)}
-                        className="flex items-center p-4 hover:bg-gray-700 cursor-pointer transition-colors border-b border-gray-700 last:border-0"
+                        className="flex items-center gap-3 p-2.5 sm:px-4 hover:bg-white/5 cursor-pointer transition-colors"
                       >
                         <img
                           src={product.image}
                           alt={product.name}
-                          className="w-16 h-16 object-cover rounded-lg mr-4"
+                          className="w-10 h-12 object-cover object-top rounded bg-black/40 flex-shrink-0"
                         />
-                        <div className="flex-1">
-                          <h4 className="text-white font-semibold">{product.name}</h4>
-                          <p className="text-gray-400 text-sm">${product.price.toFixed(2)}</p>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-[9px] uppercase tracking-widest text-amber-400 font-semibold block">
+                            {product.category}
+                          </span>
+                          <h4 className="text-xs font-medium text-white truncate">
+                            {product.name}
+                          </h4>
                         </div>
-                      </motion.div>
+                        <span className="text-xs font-bold text-amber-300">
+                          ${product.price.toFixed(2)}
+                        </span>
+                      </div>
                     ))}
-                  </motion.div>
+                  </div>
                 )}
-                {searchQuery.trim().length > 0 && filteredProducts.length === 0 && !isSearching && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="p-8 text-center text-gray-400"
-                  >
-                    No products found
-                  </motion.div>
+
+                {searchQuery.trim().length > 0 && filteredProducts.length === 0 && (
+                  <div className="p-6 text-center text-gray-400 text-xs">
+                    No atelier pieces found matching "{searchQuery}"
+                  </div>
                 )}
               </AnimatePresence>
             </div>
@@ -129,6 +124,3 @@ const SearchBar = ({ isOpen, onClose }) => {
 };
 
 export default SearchBar;
-
-
-

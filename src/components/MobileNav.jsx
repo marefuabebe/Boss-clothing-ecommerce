@@ -1,14 +1,12 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useCart } from '../context/CartContext';
-import { usePersistentNotification } from '../context/PersistentNotificationContext.jsx';
-import { FaHome, FaShoppingBag, FaShoppingCart, FaBell, FaUser } from 'react-icons/fa';
+import { FaHome, FaShoppingBag, FaImages, FaShoppingCart, FaInfoCircle } from 'react-icons/fa';
 
 const MobileNav = () => {
   const location = useLocation();
   const { getCartItemsCount } = useCart();
-  const { unreadCount } = usePersistentNotification(); // ADD THIS
   const cartCount = getCartItemsCount();
 
   const isActive = (path) => location.pathname === path;
@@ -16,57 +14,41 @@ const MobileNav = () => {
   const navItems = [
     { path: '/', icon: FaHome, label: 'Home' },
     { path: '/shop', icon: FaShoppingBag, label: 'Shop' },
+    { path: '/gallery', icon: FaImages, label: 'Gallery' },
     { path: '/cart', icon: FaShoppingCart, label: 'Cart', badge: cartCount },
-    { path: '/notifications', icon: FaBell, label: 'Alerts', badge: unreadCount }, // UPDATED
-    { path: '/account', icon: FaUser, label: 'Account' },
+    { path: '/about', icon: FaInfoCircle, label: 'About' },
   ];
 
   return (
-    <motion.div
-      initial={{ y: 100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="lg:hidden fixed bottom-0 left-0 right-0 bg-gray-800/95 backdrop-blur-sm border-t border-gray-700 shadow-lg z-40"
-    >
-      <div className="flex justify-around items-center h-16">
-        {navItems.map((item, index) => {
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-[#0B0B0F]/90 backdrop-blur-xl border-t border-white/10 shadow-2xl z-40">
+      <div className="flex justify-around items-center h-14 max-w-md mx-auto px-3">
+        {navItems.map((item) => {
           const Icon = item.icon;
           const active = isActive(item.path);
           return (
-            <motion.div
+            <Link
               key={item.path}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              whileTap={{ scale: 0.9 }}
+              to={item.path}
+              className={`flex flex-col items-center justify-center relative py-1 px-3 transition-colors ${
+                active ? 'text-amber-400' : 'text-gray-400 hover:text-gray-200'
+              }`}
             >
-              <Link
-                to={item.path}
-                className={`flex flex-col items-center justify-center flex-1 h-full relative transition-colors ${
-                  active ? 'text-blue-400' : 'text-gray-400'
-                }`}
-              >
-                <Icon className="text-xl mb-1" />
-                <span className="text-xs">{item.label}</span>
-                <AnimatePresence>
-                  {item.badge && item.badge > 0 && (
-                    <motion.span
-                      key={`mobile-${item.label}-${item.badge}`} // Unique key for animation
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                      className="absolute top-0 right-1/3 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center shadow-lg shadow-red-500/50"
-                    >
-                      {item.badge}
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </Link>
-            </motion.div>
+              <div className="relative">
+                <Icon className="text-base" />
+                {item.badge && item.badge > 0 ? (
+                  <span className="absolute -top-1.5 -right-2 bg-gradient-to-r from-amber-400 to-amber-500 text-black text-[9px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">
+                    {item.badge}
+                  </span>
+                ) : null}
+              </div>
+              <span className="text-[10px] tracking-wider uppercase font-medium mt-0.5">
+                {item.label}
+              </span>
+            </Link>
           );
         })}
       </div>
-    </motion.div>
+    </div>
   );
 };
 

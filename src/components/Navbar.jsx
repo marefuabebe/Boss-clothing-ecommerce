@@ -1,13 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
-import { usePersistentNotification } from '../context/PersistentNotificationContext.jsx';
-import { FaShoppingCart, FaBell, FaUser, FaBars, FaTimes, FaSearch, FaSignInAlt, FaUserPlus } from 'react-icons/fa';
+import { 
+  FaShoppingCart, 
+  FaUser, 
+  FaBars, 
+  FaTimes, 
+  FaSignInAlt, 
+  FaUserPlus, 
+  FaSignOutAlt,
+  FaHome,
+  FaShoppingBag,
+  FaImages,
+  FaInfoCircle,
+  FaEnvelope,
+  FaPhone
+} from 'react-icons/fa';
 import AuthModal from './AuthModal';
 import LogoutModal from './LogoutModal';
-import SearchBar from './SearchBar';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,11 +28,10 @@ const Navbar = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authModalMode, setAuthModalMode] = useState('login');
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { getCartItemsCount } = useCart();
   const { isLoggedIn, logout, user } = useAuth();
-  const { unreadCount } = usePersistentNotification(); // ADD THIS
+  const location = useLocation();
   const navigate = useNavigate();
   const cartCount = getCartItemsCount();
   const dropdownRef = useRef(null);
@@ -28,7 +39,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 15);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -61,110 +72,89 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { path: '/', label: 'Home' },
-    { path: '/shop', label: 'Shop' },
-    { path: '/gallery', label: 'Gallery' },
-    { path: '/about', label: 'About' },
-    { path: '/contact', label: 'Contact' },
+    { path: '/', label: 'Home', icon: FaHome },
+    { path: '/shop', label: 'Shop', icon: FaShoppingBag },
+    { path: '/gallery', label: 'Gallery', icon: FaImages },
+    { path: '/about', label: 'About', icon: FaInfoCircle },
+    { path: '/contact', label: 'Contact', icon: FaEnvelope },
   ];
 
   return (
     <>
       <motion.nav
-        initial={{ y: -100 }}
+        initial={{ y: -80 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled 
-            ? 'bg-gray-900/80 backdrop-blur-xl shadow-2xl border-b border-white/10' 
-            : 'bg-gray-900/60 backdrop-blur-md border-b border-white/5'
+            ? 'bg-[#0B0B0F]/90 backdrop-blur-xl shadow-xl shadow-black/40 border-b border-white/10' 
+            : 'bg-[#0B0B0F]/70 backdrop-blur-md border-b border-white/5'
         }`}
       >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20 lg:h-24">
-            {/* Logo */}
-            <motion.div 
-              whileHover={{ scale: 1.05 }} 
-              whileTap={{ scale: 0.95 }}
-              className="flex-shrink-0"
-            >
-              <Link to="/" className="font-great-vibes text-3xl sm:text-4xl lg:text-5xl text-white hover:text-primary transition-colors duration-300">
-                Boss Clothe
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Brand Logo & City Badge */}
+            <div className="flex items-center gap-3 shrink-0">
+              <Link to="/" className="flex items-center gap-2 group">
+                <span className="font-playfair font-black text-xl sm:text-2xl tracking-wide text-white group-hover:text-amber-400 transition-colors duration-300">
+                  Boss Clothe
+                </span>
               </Link>
-            </motion.div>
-
-            {/* Centered Navigation - Desktop */}
-            <div className="hidden lg:flex items-center justify-center flex-1 mx-8">
-              <div className="flex items-center space-x-1 bg-gray-800/50 backdrop-blur-sm rounded-full px-2 py-2 border border-white/10">
-                {navLinks.map((link, index) => (
-                  <motion.div
-                    key={link.path}
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <Link
-                      to={link.path}
-                      className="relative px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors duration-300 rounded-lg group"
-                    >
-                      {link.label}
-                      <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-primary to-primary-light transition-all duration-300 group-hover:w-3/4" />
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
+              <span className="hidden xl:inline-flex items-center text-[10px] uppercase tracking-wider font-semibold text-amber-400 bg-amber-400/10 border border-amber-400/20 px-2 py-0.5 rounded-full">
+                Addis Ababa
+              </span>
             </div>
 
+            {/* Navigation Links - Desktop */}
+            <nav className="hidden lg:flex items-center justify-center">
+              <div className="flex items-center space-x-1 bg-white/[0.03] backdrop-blur-md rounded-full px-2 py-1 border border-white/10 shadow-inner">
+                {navLinks.map((link) => {
+                  const Icon = link.icon;
+                  const isActive = location.pathname === link.path;
+                  return (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      className={`relative flex items-center gap-1.5 px-3.5 py-1.5 text-xs uppercase tracking-[0.08em] font-medium transition-all duration-200 rounded-full ${
+                        isActive 
+                          ? 'text-black bg-gradient-to-r from-amber-300 to-amber-400 font-semibold shadow-sm' 
+                          : 'text-gray-300 hover:text-white hover:bg-white/5'
+                      }`}
+                    >
+                      <Icon className="text-xs shrink-0" />
+                      <span>{link.label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </nav>
+
             {/* Right Side Actions - Desktop */}
-            <div className="hidden lg:flex items-center space-x-3">
-              {/* Search */}
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => setShowSearch(true)}
-                className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white hover:text-gray-300 transition-all duration-300 backdrop-blur-sm flex items-center justify-center"
+            <div className="hidden lg:flex items-center space-x-2.5">
+              {/* Phone Support Link */}
+              <a
+                href="tel:+251938543853"
+                className="hidden xl:flex items-center gap-1.5 text-xs text-gray-300 hover:text-amber-300 transition-colors px-2.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 hover:border-amber-400/30"
+                title="Call our store"
               >
-                <FaSearch className="text-base" />
-              </motion.button>
+                <FaPhone className="text-amber-400 text-[10px]" />
+                <span className="text-[11px] font-medium">+251 938 543 853</span>
+              </a>
 
-              {/* Notifications - UPDATED */}
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Link 
-                  to="/notifications" 
-                  className="relative w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white hover:text-gray-300 transition-all duration-300 backdrop-blur-sm flex items-center justify-center"
-                >
-                  <FaBell className="text-base" />
-                  <AnimatePresence>
-                    {unreadCount > 0 && (
-                      <motion.span
-                        key={`desktop-${unreadCount}`} // Unique key for animation
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        exit={{ scale: 0 }}
-                        className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold shadow-lg"
-                      >
-                        {unreadCount}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                </Link>
-              </motion.div>
-
-              {/* Cart */}
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              {/* Cart Pill */}
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                 <Link 
                   to="/cart" 
-                  className="relative w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white hover:text-gray-300 transition-all duration-300 backdrop-blur-sm flex items-center justify-center"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-gray-200 hover:text-amber-300 transition-all duration-200"
+                  title="Shopping Cart"
+                  aria-label="Shopping Cart"
                 >
-                  <FaShoppingCart className="text-base" />
+                  <FaShoppingCart className="text-xs text-amber-400" />
+                  <span className="text-xs font-semibold">Cart</span>
                   {cartCount > 0 && (
-                    <motion.span
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="absolute -top-1 -right-1 bg-gradient-to-r from-primary to-primary-light text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold shadow-lg"
-                    >
+                    <span className="bg-gradient-to-r from-amber-400 to-amber-500 text-black text-[10px] rounded-full px-1.5 py-0.2 font-bold shadow-sm">
                       {cartCount}
-                    </motion.span>
+                    </span>
                   )}
                 </Link>
               </motion.div>
@@ -174,27 +164,25 @@ const Navbar = () => {
                 {!isLoggedIn ? (
                   <>
                     <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                       onClick={() => setShowAuthDropdown(!showAuthDropdown)}
-                      className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white hover:text-gray-300 transition-all duration-300 backdrop-blur-sm flex items-center justify-center"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-gray-200 hover:text-white transition-all duration-200"
+                      title="Account"
+                      aria-label="Account"
                     >
-                      <FaUser className="text-base" />
+                      <FaUser className="text-xs text-gray-400" />
+                      <span className="text-xs font-medium">Sign In</span>
                     </motion.button>
                     
                     <AnimatePresence>
                       {showAuthDropdown && (
                         <motion.div
-                          initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                          initial={{ opacity: 0, y: -8, scale: 0.96 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                          transition={{ 
-                            type: "spring", 
-                            damping: 20, 
-                            stiffness: 300,
-                            duration: 0.2
-                          }}
-                          className="absolute right-0 mt-3 w-56 bg-gray-800/95 backdrop-blur-xl rounded-2xl shadow-2xl py-2 z-50 border border-white/10 overflow-hidden"
+                          exit={{ opacity: 0, y: -8, scale: 0.96 }}
+                          transition={{ duration: 0.15 }}
+                          className="absolute right-0 mt-2 w-48 bg-[#13131A] rounded-xl shadow-2xl py-1.5 z-50 border border-white/10 overflow-hidden"
                         >
                           <button
                             onClick={() => {
@@ -202,10 +190,10 @@ const Navbar = () => {
                               setShowAuthModal(true);
                               setShowAuthDropdown(false);
                             }}
-                            className="w-full text-left px-4 py-3 text-white hover:bg-white/10 transition-colors duration-200 flex items-center space-x-2 group"
+                            className="w-full text-left px-4 py-2 text-xs uppercase tracking-wider text-gray-200 hover:text-white hover:bg-white/5 transition-colors flex items-center space-x-2"
                           >
-                            <FaSignInAlt className="text-sm group-hover:translate-x-1 transition-transform" />
-                            <span>Login</span>
+                            <FaSignInAlt className="text-amber-400" />
+                            <span>Sign In</span>
                           </button>
                           <button
                             onClick={() => {
@@ -213,9 +201,9 @@ const Navbar = () => {
                               setShowAuthModal(true);
                               setShowAuthDropdown(false);
                             }}
-                            className="w-full text-left px-4 py-3 text-white hover:bg-white/10 transition-colors duration-200 flex items-center space-x-2 group border-t border-white/10"
+                            className="w-full text-left px-4 py-2 text-xs uppercase tracking-wider text-gray-200 hover:text-white hover:bg-white/5 transition-colors flex items-center space-x-2 border-t border-white/5"
                           >
-                            <FaUserPlus className="text-sm group-hover:translate-x-1 transition-transform" />
+                            <FaUserPlus className="text-amber-400" />
                             <span>Register</span>
                           </button>
                         </motion.div>
@@ -225,43 +213,37 @@ const Navbar = () => {
                 ) : (
                   <>
                     <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                       onClick={() => setShowAuthDropdown(!showAuthDropdown)}
-                      className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white hover:text-gray-300 transition-all duration-300 backdrop-blur-sm flex items-center justify-center"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-400/10 hover:bg-amber-400/20 border border-amber-400/30 text-amber-300 transition-all duration-200"
                     >
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-primary-light flex items-center justify-center text-white font-semibold text-sm">
-                        {user?.name?.charAt(0).toUpperCase() || <FaUser />}
-                      </div>
+                      <FaUser className="text-xs" />
+                      <span className="text-xs font-semibold">{user?.name?.split(' ')[0] || 'Account'}</span>
                     </motion.button>
                     
                     <AnimatePresence>
                       {showAuthDropdown && (
                         <motion.div
-                          initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                          initial={{ opacity: 0, y: -8, scale: 0.96 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                          transition={{ 
-                            type: "spring", 
-                            damping: 20, 
-                            stiffness: 300,
-                            duration: 0.2
-                          }}
-                          className="absolute right-0 mt-3 w-56 bg-gray-800/95 backdrop-blur-xl rounded-2xl shadow-2xl py-2 z-50 border border-white/10 overflow-hidden"
+                          exit={{ opacity: 0, y: -8, scale: 0.96 }}
+                          transition={{ duration: 0.15 }}
+                          className="absolute right-0 mt-2 w-52 bg-[#13131A] rounded-xl shadow-2xl py-2 z-50 border border-white/10 overflow-hidden"
                         >
-                          <div className="px-4 py-3 border-b border-white/10">
-                            <p className="text-sm font-semibold text-white">{user?.name || 'User'}</p>
-                            <p className="text-xs text-gray-400 truncate">{user?.email || ''}</p>
+                          <div className="px-3.5 py-2 border-b border-white/10">
+                            <p className="text-xs font-semibold text-white">{user?.name || 'Client'}</p>
+                            <p className="text-[11px] text-gray-400 truncate">{user?.email || ''}</p>
                           </div>
                           <button
                             onClick={() => {
                               setShowLogoutModal(true);
                               setShowAuthDropdown(false);
                             }}
-                            className="w-full text-left px-4 py-3 text-blue-400 hover:bg-blue-500/10 transition-colors duration-200 flex items-center space-x-2 group"
+                            className="w-full text-left px-3.5 py-2 text-xs text-red-400 hover:bg-red-500/10 transition-colors flex items-center space-x-2"
                           >
-                            <FaSignInAlt className="text-sm group-hover:translate-x-1 transition-transform" />
-                            <span>Logout</span>
+                            <FaSignOutAlt />
+                            <span>Sign Out</span>
                           </button>
                         </motion.div>
                       )}
@@ -269,221 +251,104 @@ const Navbar = () => {
                   </>
                 )}
               </div>
+
+              {/* Shop CTA Button */}
+              <Link
+                to="/shop"
+                className="hidden xl:inline-flex items-center px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-bold text-xs uppercase tracking-wider shadow-sm transition-all hover:scale-102"
+              >
+                Shop Now
+              </Link>
             </div>
 
             {/* Mobile Menu Button */}
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white hover:text-gray-300 transition-all duration-300 backdrop-blur-sm flex items-center justify-center"
-            >
-              <AnimatePresence mode="wait">
-                {isOpen ? (
-                  <motion.div
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                  >
-                    <FaTimes className="text-lg" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                  >
-                    <FaBars className="text-lg" />
-                  </motion.div>
+            <div className="flex items-center space-x-2 lg:hidden">
+              <Link 
+                to="/cart" 
+                className="relative w-9 h-9 rounded-full bg-white/[0.04] border border-white/10 text-gray-300 flex items-center justify-center"
+              >
+                <FaShoppingCart className="text-xs" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-amber-400 text-black text-[10px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
+                    {cartCount}
+                  </span>
                 )}
-              </AnimatePresence>
-            </motion.button>
+              </Link>
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="w-9 h-9 rounded-full bg-white/[0.04] border border-white/10 text-white flex items-center justify-center"
+              >
+                {isOpen ? <FaTimes className="text-sm" /> : <FaBars className="text-sm" />}
+              </button>
+            </div>
           </div>
 
-          {/* Mobile Navigation */}
+          {/* Mobile Navigation Dropdown */}
           <AnimatePresence>
             {isOpen && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="lg:hidden py-4 space-y-2 bg-gray-800/50 backdrop-blur-xl border-t border-white/10 overflow-hidden"
+                transition={{ duration: 0.2 }}
+                className="lg:hidden py-3 space-y-1 bg-[#111117] border-t border-white/10 rounded-b-xl overflow-hidden px-2 mb-2"
               >
-                {navLinks.map((link, index) => (
-                  <motion.div
-                    key={link.path}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                  >
+                {navLinks.map((link) => {
+                  const Icon = link.icon;
+                  return (
                     <Link
+                      key={link.path}
                       to={link.path}
                       onClick={() => setIsOpen(false)}
-                      className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 font-medium"
+                      className="flex items-center gap-2.5 px-3 py-2 text-xs uppercase tracking-wider text-gray-300 hover:text-amber-300 hover:bg-white/5 rounded-lg font-medium"
                     >
-                      {link.label}
+                      <Icon className="text-amber-400 text-xs shrink-0" />
+                      <span>{link.label}</span>
                     </Link>
-                  </motion.div>
-                ))}
-                
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.25 }}
-                  className="px-4 py-3 border-t border-white/10"
-                >
-                  <Link
-                    to="/cart"
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-between px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 font-medium"
-                  >
-                    <span>Cart</span>
-                    {cartCount > 0 && (
-                      <span className="bg-gradient-to-r from-primary to-primary-light text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
-                        {cartCount}
-                      </span>
-                    )}
-                  </Link>
-                </motion.div>
+                  );
+                })}
 
-                {/* Notifications - Mobile - UPDATED */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.26 }}
-                  className="px-4 py-2"
-                >
-                  <Link
-                    to="/notifications"
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-between w-full px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 font-medium"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <FaBell />
-                      <span>Notifications</span>
-                    </div>
-                    {unreadCount > 0 && (
-                      <span className="bg-gradient-to-r from-red-500 to-red-600 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
-                        {unreadCount}
-                      </span>
-                    )}
-                  </Link>
-                </motion.div>
-
-                {/* Search - Mobile */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.27 }}
-                  className="px-4 py-2"
-                >
+                <div className="pt-2 border-t border-white/10 flex items-center justify-between px-2">
                   <button
                     onClick={() => {
                       setShowSearch(true);
                       setIsOpen(false);
                     }}
-                    className="flex items-center justify-between w-full px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 font-medium"
+                    className="text-xs text-gray-300 hover:text-amber-300 flex items-center space-x-2 py-1.5"
                   >
-                    <span>Search</span>
                     <FaSearch />
+                    <span>Search</span>
                   </button>
-                </motion.div>
 
-                {/* Auth Section - Mobile */}
-                {!isLoggedIn ? (
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="px-4 py-2"
-                    ref={mobileDropdownRef}
-                  >
+                  {!isLoggedIn ? (
                     <button
-                      onClick={() => setShowMobileAuthDropdown(!showMobileAuthDropdown)}
-                      className="w-full flex items-center justify-between px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 font-medium"
+                      onClick={() => {
+                        setAuthModalMode('login');
+                        setShowAuthModal(true);
+                        setIsOpen(false);
+                      }}
+                      className="text-xs text-amber-300 hover:text-amber-200 font-semibold"
                     >
-                      <div className="flex items-center space-x-2">
-                        <FaUser />
-                        <span>Account</span>
-                      </div>
-                      <motion.div
-                        animate={{ rotate: showMobileAuthDropdown ? 180 : 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </motion.div>
+                      Sign In
                     </button>
-                    <AnimatePresence>
-                      {showMobileAuthDropdown && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="mt-2 overflow-hidden"
-                        >
-                          <button
-                            onClick={() => {
-                              setAuthModalMode('login');
-                              setShowAuthModal(true);
-                              setIsOpen(false);
-                              setShowMobileAuthDropdown(false);
-                            }}
-                            className="w-full flex items-center space-x-2 px-4 py-2.5 text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-200"
-                          >
-                            <FaSignInAlt className="text-sm" />
-                            <span>Login</span>
-                          </button>
-                          <button
-                            onClick={() => {
-                              setAuthModalMode('register');
-                              setShowAuthModal(true);
-                              setIsOpen(false);
-                              setShowMobileAuthDropdown(false);
-                            }}
-                            className="w-full flex items-center space-x-2 px-4 py-2.5 text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-200"
-                          >
-                            <FaUserPlus className="text-sm" />
-                            <span>Register</span>
-                          </button>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="px-4 py-3"
-                  >
-                    <div className="px-4 py-3 mb-2 bg-white/5 rounded-xl border border-white/10">
-                      <p className="text-sm font-semibold text-white">{user?.name || 'User'}</p>
-                      <p className="text-xs text-gray-400 truncate">{user?.email || ''}</p>
-                    </div>
+                  ) : (
                     <button
                       onClick={() => {
                         setShowLogoutModal(true);
                         setIsOpen(false);
                       }}
-                      className="w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 font-semibold transition-all duration-300 border border-blue-500/30"
+                      className="text-xs text-red-400 font-semibold"
                     >
-                      <FaSignInAlt />
-                      <span>Logout</span>
+                      Sign Out
                     </button>
-                  </motion.div>
-                )}
+                  )}
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
       </motion.nav>
 
-      <SearchBar isOpen={showSearch} onClose={() => setShowSearch(false)} />
       <AuthModal 
         isOpen={showAuthModal} 
         onClose={() => setShowAuthModal(false)}

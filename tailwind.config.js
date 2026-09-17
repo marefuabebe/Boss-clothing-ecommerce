@@ -8,18 +8,38 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#3B82F6',
-          light: '#60A5FA',
-          dark: '#2563EB',
+          DEFAULT: '#D4AF37', // Champagne Gold
+          light: '#EAD793',
+          dark: '#B89225',
         },
-        accent: '#60A5FA',
-        popular: '#FF9800',
-        new: '#4CAF50',
+        gold: {
+          50: '#FDFBF7',
+          100: '#FAF3E3',
+          200: '#F2E4C2',
+          300: '#E6CF9B',
+          400: '#D4AF37',
+          500: '#B89225',
+          600: '#947217',
+          700: '#73550F',
+        },
+        noir: {
+          950: '#070709',
+          900: '#0B0B0F',
+          850: '#111117',
+          800: '#16161F',
+          750: '#1C1C26',
+          700: '#232330',
+          600: '#323242',
+        },
+        accent: '#D4AF37',
+        popular: '#E5A93C',
+        new: '#2EBD85',
       },
       fontFamily: {
-        'great-vibes': ['Great Vibes', 'cursive'],
-        'playfair': ['Playfair Display', 'serif'],
-        'poppins': ['Poppins', 'sans-serif'],
+        'sans': ['"Plus Jakarta Sans"', 'Poppins', 'sans-serif'],
+        'playfair': ['"Playfair Display"', 'Georgia', 'serif'],
+        'serif': ['"Playfair Display"', 'Georgia', 'serif'],
+        'display': ['"Playfair Display"', 'serif'],
       },
       animation: {
         'slide-in': 'slideIn 0.3s ease-out',

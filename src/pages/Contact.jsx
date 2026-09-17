@@ -1,22 +1,15 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  FaMapMarkerAlt, 
   FaPhone, 
   FaEnvelope, 
+  FaMapMarkerAlt, 
   FaClock, 
-  FaFacebook, 
-  FaTwitter, 
-  FaInstagram, 
-  FaPinterest, 
-  FaLinkedin,
-  FaPaperPlane,
-  FaCheckCircle,
-  FaHeadset,
-  FaComments,
-  FaWhatsapp
+  FaPaperPlane, 
+  FaCheckCircle, 
+  FaWhatsapp,
+  FaChevronDown
 } from 'react-icons/fa';
-import { HiOutlineMail, HiOutlinePhone, HiOutlineLocationMarker, HiOutlineClock } from 'react-icons/hi';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -26,424 +19,292 @@ const Contact = () => {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
-  const [activeField, setActiveField] = useState(null);
+  const [openFaq, setOpenFaq] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulate form submission
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
       setFormData({ name: '', email: '', subject: '', message: '' });
-    }, 3000);
+    }, 4000);
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const contactMethods = [
+  const contactPillars = [
     {
-      icon: <HiOutlinePhone className="text-2xl" />,
+      icon: FaPhone,
       title: "Call Us",
-      details: "+251 938543853",
-      subtext: "Mon-Fri from 9am to 6pm",
-      color: "from-blue-500 to-cyan-400",
-      delay: 0.1,
+      detail: "+251 938 543 853",
+      subtext: "Mon-Sat 9am – 7pm EAT",
       action: "tel:+251938543853"
     },
     {
-      icon: <HiOutlineMail className="text-2xl" />,
+      icon: FaEnvelope,
       title: "Email Us",
-      details: "info@bossclothes.com",
-      subtext: "We reply within 24 hours",
-      color: "from-purple-500 to-pink-500",
-      delay: 0.2,
+      detail: "info@bossclothes.com",
+      subtext: "We reply within 12 hours",
       action: "mailto:info@bossclothes.com"
     },
     {
-      icon: <HiOutlineLocationMarker className="text-2xl" />,
-      title: "Visit Us",
-      details: "Bole Subcity, Addis Ababa",
-      subtext: "Get directions",
-      color: "from-emerald-500 to-teal-400",
-      delay: 0.3,
+      icon: FaMapMarkerAlt,
+      title: "Visit Our Store",
+      detail: "Bole Subcity, Addis Ababa",
+      subtext: "Cameroon St., Addis Ababa",
       action: "https://maps.google.com"
     },
     {
-      icon: <HiOutlineClock className="text-2xl" />,
-      title: "Working Hours",
-      details: "Mon-Fri: 9am-6pm",
-      subtext: "Sat: 10am-4pm, Sun: Closed",
-      color: "from-orange-500 to-yellow-400",
-      delay: 0.4,
+      icon: FaClock,
+      title: "Opening Hours",
+      detail: "Mon - Sat: 9am - 7pm",
+      subtext: "Sun: By appointment only",
       action: null
     },
   ];
 
-  const socialLinks = [
-    { icon: <FaWhatsapp />, label: "WhatsApp", color: "hover:bg-green-500", delay: 0.1 },
-    { icon: <FaFacebook />, label: "Facebook", color: "hover:bg-blue-600", delay: 0.2 },
-    { icon: <FaInstagram />, label: "Instagram", color: "hover:bg-pink-600", delay: 0.3 },
-    { icon: <FaTwitter />, label: "Twitter", color: "hover:bg-sky-500", delay: 0.4 },
-    { icon: <FaLinkedin />, label: "LinkedIn", color: "hover:bg-blue-700", delay: 0.5 },
+  const faqs = [
+    {
+      q: "How do I try clothes in Addis Ababa?",
+      a: "You can message us directly on WhatsApp or send a message below. We will welcome you to our Bole store."
+    },
+    {
+      q: "What payment methods are supported in Ethiopia?",
+      a: "We accept Telebirr, Commercial Bank of Ethiopia (CBE Birr), and all major international credit/debit cards (Visa, MasterCard)."
+    },
+    {
+      q: "How fast is delivery?",
+      a: "Orders inside Addis Ababa arrive within 1 to 2 days. Orders across Ethiopia take 2 to 4 days, and international orders take 5 to 7 days."
+    },
+    {
+      q: "Can clothes be altered or adjusted?",
+      a: "Yes! Our tailors can adjust length, sleeves, or waist size at our Bole store upon request."
+    }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black py-8 sm:py-12">
-      {/* Background Decorative Elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/3 -left-40 w-80 h-80 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-40 right-1/4 w-60 h-60 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 rounded-full blur-3xl"></div>
-      </div>
+    <div className="min-h-screen bg-[#0B0B0F] text-gray-100 py-6 sm:py-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-10">
 
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Header Section */}
-        <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, type: "spring" }}
-          className="text-center mb-10 sm:mb-16"
-        >
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-block mb-4"
-          >
-            <div className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 flex items-center justify-center mx-auto shadow-2xl">
-              <FaHeadset className="text-white text-3xl" />
-            </div>
-          </motion.div>
-          
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-4">
-            Get In Touch
+        {/* Header */}
+        <div className="text-center max-w-xl mx-auto">
+          <span className="text-[10px] uppercase tracking-[0.25em] text-amber-400 font-semibold block mb-1">
+            Customer Support
+          </span>
+          <h1 className="text-2xl sm:text-3xl font-bold font-playfair text-white mb-2">
+            Contact Boss Clothe
           </h1>
-          <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Have questions about our collections? We're here to help! Reach out through any channel below.
+          <p className="text-xs sm:text-sm text-gray-400">
+            Have questions about clothes, sizes, or orders? We are here to help you.
           </p>
-        </motion.div>
-
-        {/* Contact Methods Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12">
-          {contactMethods.map((method, index) => (
-            <motion.a
-              key={index}
-              href={method.action}
-              target={method.action?.startsWith('http') ? "_blank" : undefined}
-              rel={method.action?.startsWith('http') ? "noopener noreferrer" : undefined}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: method.delay }}
-              whileHover={{ y: -5, scale: 1.02 }}
-              className={`block bg-gradient-to-br ${method.color} rounded-2xl p-6 shadow-xl transform transition-all duration-300 hover:shadow-2xl border border-white/10 backdrop-blur-sm`}
-            >
-              <div className="flex flex-col items-center text-center">
-                <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center mb-4 backdrop-blur-sm">
-                  <div className="text-white">
-                    {method.icon}
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">{method.title}</h3>
-                <p className="text-white font-semibold mb-1">{method.details}</p>
-                <p className="text-white/80 text-sm">{method.subtext}</p>
-              </div>
-            </motion.a>
-          ))}
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Contact Info & Social */}
-          <div className="lg:col-span-1 space-y-8">
-            {/* Contact Card */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-2xl p-8 border border-gray-700/50 backdrop-blur-sm shadow-2xl"
-            >
-              <div className="flex items-center mb-8">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 flex items-center justify-center mr-4">
-                  <FaMapMarkerAlt className="text-white text-xl" />
+        {/* SECTION 1: Contact Channels */}
+        <section className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {contactPillars.map((pillar) => {
+            const Icon = pillar.icon;
+            return (
+              <div 
+                key={pillar.title}
+                className="p-3.5 rounded-xl bg-[#121218] border border-white/10 hover:border-amber-400/30 transition-all flex flex-col justify-between"
+              >
+                <div>
+                  <div className="w-8 h-8 rounded-lg bg-amber-400/10 border border-amber-400/20 text-amber-300 flex items-center justify-center mb-2">
+                    <Icon size={14} />
+                  </div>
+                  <h3 className="text-xs font-semibold text-white mb-0.5">{pillar.title}</h3>
+                  <p className="text-xs font-bold text-amber-300 truncate">{pillar.detail}</p>
+                </div>
+                <p className="text-[10px] text-gray-400 mt-2">{pillar.subtext}</p>
+              </div>
+            );
+          })}
+        </section>
+
+        {/* SECTION 2: Message Form & Boutique Visit */}
+        <section className="grid grid-cols-1 md:grid-cols-5 gap-6">
+          {/* Form */}
+          <div className="md:col-span-3 bg-[#121218] rounded-2xl border border-white/10 p-5 sm:p-6 shadow-xl">
+            <h2 className="text-lg font-bold font-playfair text-white mb-1">
+              Send a Message
+            </h2>
+            <p className="text-xs text-gray-400 mb-4">
+              We answer all messages within 12 hours.
+            </p>
+
+            <AnimatePresence>
+              {submitted && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="mb-4 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 flex items-center gap-2 text-xs"
+                >
+                  <FaCheckCircle className="text-sm flex-shrink-0" />
+                  <span>Thank you! We received your message and will reply soon.</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-1">
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Marefu Abebe"
+                    className="w-full px-3.5 py-2 bg-black/40 border border-white/10 rounded-lg text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400/60"
+                  />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-white">Visit Our Store</h3>
-                  <p className="text-gray-400">Experience fashion in person</p>
+                  <label className="block text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-1">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="client@domain.com"
+                    className="w-full px-3.5 py-2 bg-black/40 border border-white/10 rounded-lg text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400/60"
+                  />
                 </div>
               </div>
+
+              <div>
+                <label className="block text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-1">
+                  Subject
+                </label>
+                <select
+                  id="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className="w-full px-3.5 py-2 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-amber-400/60 cursor-pointer"
+                >
+                  <option value="">Choose a topic...</option>
+                  <option value="fitting">Visit store to try clothes</option>
+                  <option value="order">Help with order or size</option>
+                  <option value="wholesale">Wholesale or bulk orders</option>
+                  <option value="general">General questions</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-1">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  required
+                  rows={4}
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Write your question or request here..."
+                  className="w-full px-3.5 py-2 bg-black/40 border border-white/10 rounded-lg text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400/60"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-2.5 px-4 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:to-amber-500 text-black font-bold text-xs tracking-wider uppercase transition-all shadow-md flex items-center justify-center gap-2 active:scale-98"
+              >
+                <FaPaperPlane className="text-[10px]" />
+                <span>Send Message</span>
+              </button>
+            </form>
+          </div>
+
+          {/* Boutique Visit Info */}
+          <div className="md:col-span-2 space-y-4">
+            <div className="bg-[#121218] rounded-2xl border border-white/10 p-4 sm:p-5">
+              <h3 className="text-sm font-bold font-playfair text-white mb-2">
+                Visit Our Addis Ababa Store
+              </h3>
+              <p className="text-xs text-gray-300 leading-relaxed mb-3">
+                Come visit our store in Addis Ababa to try on clothes, check your size, and get friendly styling advice.
+              </p>
               
-              <div className="space-y-6">
-                <div className="flex items-start">
-                  <div className="text-blue-400 text-xl mt-1 mr-4">
-                    <FaMapMarkerAlt />
-                  </div>
-                  <div>
-                    <h5 className="font-semibold mb-1 text-white">Store Location</h5>
-                    <p className="text-gray-300">Bole Subcity, Addis Ababa, Ethiopia</p>
-                    <p className="text-gray-400 text-sm mt-1">Near Bole International Airport</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="text-green-400 text-xl mt-1 mr-4">
-                    <FaPhone />
-                  </div>
-                  <div>
-                    <h5 className="font-semibold mb-1 text-white">Store Phone</h5>
-                    <p className="text-gray-300">+251 938543853</p>
-                    <p className="text-gray-400 text-sm mt-1">Direct line to our boutique</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="text-purple-400 text-xl mt-1 mr-4">
-                    <FaEnvelope />
-                  </div>
-                  <div>
-                    <h5 className="font-semibold mb-1 text-white">Store Email</h5>
-                    <p className="text-gray-300">store@bossclothes.com</p>
-                    <p className="text-gray-400 text-sm mt-1">For in-store inquiries</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Social Media Card */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-2xl p-8 border border-gray-700/50 backdrop-blur-sm shadow-2xl"
-            >
-              <div className="flex items-center mb-8">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center mr-4">
-                  <FaComments className="text-white text-xl" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-white">Connect With Us</h3>
-                  <p className="text-gray-400">Follow for updates & style tips</p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-5 gap-3">
-                {socialLinks.map((social, index) => (
-                  <motion.a
-                    key={index}
-                    href="#"
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3, delay: social.delay }}
-                    whileHover={{ scale: 1.1, y: -5 }}
-                    className={`w-12 h-12 rounded-xl bg-gray-700/50 flex items-center justify-center text-white text-xl transition-all duration-300 ${social.color} backdrop-blur-sm border border-gray-600/50`}
-                    aria-label={social.label}
-                  >
-                    {social.icon}
-                  </motion.a>
-                ))}
-              </div>
-
-              <div className="mt-6 pt-6 border-t border-gray-700/50">
-                <p className="text-gray-400 text-sm text-center">
-                  DM us for quick responses to your questions!
+              <div className="space-y-2 text-xs border-t border-white/10 pt-3">
+                <p className="text-gray-400">
+                  <span className="text-white font-medium">Address:</span> Bole Subcity, Cameroon Street, Addis Ababa
+                </p>
+                <p className="text-gray-400">
+                  <span className="text-white font-medium">Direct Line:</span> +251 938 543 853
                 </p>
               </div>
-            </motion.div>
-          </div>
 
-          {/* Right Column - Contact Form & Map */}
-          <div className="lg:col-span-2">
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-2xl p-8 border border-gray-700/50 backdrop-blur-sm shadow-2xl h-full"
-            >
-              <div className="flex items-center mb-8">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-orange-500 to-yellow-400 flex items-center justify-center mr-4">
-                  <FaPaperPlane className="text-white text-xl" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-white">Send a Message</h3>
-                  <p className="text-gray-400">We typically respond within a few hours</p>
-                </div>
-              </div>
-
-              <AnimatePresence>
-                {submitted && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    className="mb-8 p-4 rounded-xl bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 backdrop-blur-sm"
-                  >
-                    <div className="flex items-center">
-                      <FaCheckCircle className="text-emerald-400 text-2xl mr-3" />
-                      <div>
-                        <h4 className="font-semibold text-white">Message Sent Successfully!</h4>
-                        <p className="text-emerald-300 text-sm">We'll get back to you soon.</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {['name', 'email'].map((field, index) => (
-                    <motion.div
-                      key={field}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                    >
-                      <label htmlFor={field} className="block text-sm font-semibold mb-3 text-gray-300">
-                        {field === 'name' ? 'Your Name' : 'Email Address'}
-                      </label>
-                      <div 
-                        className={`relative transition-all duration-300 ${activeField === field ? 'ring-2 ring-blue-500/50' : ''}`}
-                        onFocus={() => setActiveField(field)}
-                        onBlur={() => setActiveField(null)}
-                      >
-                        <input
-                          type={field === 'email' ? 'email' : 'text'}
-                          id={field}
-                          value={formData[field]}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-5 py-4 bg-gray-900/50 border border-gray-600/50 rounded-xl focus:outline-none focus:border-blue-500 text-white placeholder-gray-500 transition-all duration-300 backdrop-blur-sm"
-                          placeholder={field === 'name' ? 'John Doe' : 'john@example.com'}
-                        />
-                        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-400 transform scale-x-0 transition-transform duration-300 origin-left" 
-                             style={{ transform: activeField === field ? 'scaleX(1)' : 'scaleX(0)' }} />
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                  <label htmlFor="subject" className="block text-sm font-semibold mb-3 text-gray-300">
-                    Subject
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      id="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-5 py-4 bg-gray-900/50 border border-gray-600/50 rounded-xl focus:outline-none focus:border-purple-500 text-white placeholder-gray-500 transition-all duration-300 backdrop-blur-sm"
-                      placeholder="How can we help you?"
-                      onFocus={() => setActiveField('subject')}
-                      onBlur={() => setActiveField(null)}
-                    />
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 transform scale-x-0 transition-transform duration-300 origin-left" 
-                         style={{ transform: activeField === 'subject' ? 'scaleX(1)' : 'scaleX(0)' }} />
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <label htmlFor="message" className="block text-sm font-semibold mb-3 text-gray-300">
-                    Your Message
-                  </label>
-                  <div className="relative">
-                    <textarea
-                      id="message"
-                      rows="4"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-5 py-4 bg-gray-900/50 border border-gray-600/50 rounded-xl focus:outline-none focus:border-emerald-500 text-white placeholder-gray-500 transition-all duration-300 resize-none backdrop-blur-sm"
-                      placeholder="Tell us about your inquiry..."
-                      onFocus={() => setActiveField('message')}
-                      onBlur={() => setActiveField(null)}
-                    />
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-400 transform scale-x-0 transition-transform duration-300 origin-left" 
-                         style={{ transform: activeField === 'message' ? 'scaleX(1)' : 'scaleX(0)' }} />
-                  </div>
-                </motion.div>
-
-                <motion.button
-                  type="submit"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full py-4 px-6 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center group"
-                >
-                  <span className="mr-3">Send Message</span>
-                  <FaPaperPlane className="group-hover:translate-x-1 transition-transform duration-300" />
-                </motion.button>
-              </form>
-
-              {/* Interactive Map */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                className="mt-10"
+              <a
+                href="https://wa.me/251938543853"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-4 w-full py-2 px-3 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center justify-center gap-2 transition-colors"
               >
-                <div className="flex items-center mb-6">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-yellow-400 flex items-center justify-center mr-3">
-                    <FaMapMarkerAlt className="text-white text-sm" />
-                  </div>
-                  <h4 className="text-xl font-bold text-white">Find Our Location</h4>
-                </div>
-                
-                <div className="rounded-xl overflow-hidden border-2 border-gray-700/50 shadow-2xl">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.775384294247!2d38.76365031478195!3d9.00872739355264!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b85cef5ab402d%3A0x8467b6b037a24d49!2sBole%2C%20Addis%20Ababa!5e0!3m2!1sen!2set!4v1656512345678!5m2!1sen!2set"
-                    width="100%"
-                    height="300"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="Boss Clothes Location"
-                    className="grayscale hover:grayscale-0 transition-all duration-500"
-                  />
-                  <div className="bg-gradient-to-r from-gray-900/90 to-gray-800/90 p-4 border-t border-gray-700/50 backdrop-blur-sm">
-                    <p className="text-gray-300 text-sm text-center">
-                      <span className="text-white font-semibold">📍 Bole Subcity</span> · Addis Ababa, Ethiopia
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
-        </div>
+                <FaWhatsapp />
+                <span>Chat via WhatsApp</span>
+              </a>
+            </div>
 
-        {/* Additional Info */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-12 text-center"
-        >
-          <div className="inline-flex items-center justify-center space-x-6 text-gray-400">
-            <div className="flex items-center">
-              <div className="w-3 h-3 rounded-full bg-emerald-500 mr-2 animate-pulse"></div>
-              <span className="text-sm">Typically replies in 2-4 hours</span>
-            </div>
-            <div className="hidden sm:block">•</div>
-            <div className="flex items-center">
-              <div className="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
-              <span className="text-sm">24/7 online support available</span>
-            </div>
-            <div className="hidden sm:block">•</div>
-            <div className="flex items-center">
-              <div className="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
-              <span className="text-sm">Secure & encrypted communication</span>
+            <div className="aspect-[16/9] rounded-2xl overflow-hidden border border-white/10 relative">
+              <img
+                src="/images/store.avif"
+                alt="Boss Boutique Storefront"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-3">
+                <span className="text-[11px] text-amber-300 font-medium">Boss Clothe Store in Addis Ababa</span>
+              </div>
             </div>
           </div>
-        </motion.div>
+        </section>
+
+        {/* SECTION 3: Frequently Asked Questions Accordion */}
+        <section className="bg-[#121218] rounded-2xl border border-white/10 p-5 sm:p-7">
+          <div className="text-center max-w-lg mx-auto mb-6">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-amber-400 font-semibold block mb-0.5">
+              Help Center
+            </span>
+            <h2 className="text-xl sm:text-2xl font-bold font-playfair text-white">
+              Frequently Asked Questions
+            </h2>
+          </div>
+
+          <div className="space-y-2.5 max-w-3xl mx-auto">
+            {faqs.map((faq, i) => (
+              <div
+                key={i}
+                className="border border-white/10 rounded-xl overflow-hidden bg-black/20"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full p-3.5 text-left flex items-center justify-between text-xs sm:text-sm font-semibold text-white hover:text-amber-300 transition-colors"
+                >
+                  <span>{faq.q}</span>
+                  <FaChevronDown
+                    className={`text-[10px] text-amber-400 transition-transform duration-200 ${
+                      openFaq === i ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+                {openFaq === i && (
+                  <div className="px-3.5 pb-3.5 text-xs text-gray-300 border-t border-white/5 pt-2 leading-relaxed">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+
       </div>
     </div>
   );

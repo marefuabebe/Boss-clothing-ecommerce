@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useNotification } from '../context/NotificationContext';
-import { ShoppingCart, Eye, Heart } from 'lucide-react';
+import { ShoppingBag, Eye, Heart } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const ProductCard = ({ product, onView }) => {
@@ -12,7 +12,7 @@ const ProductCard = ({ product, onView }) => {
   const handleAddToCart = (e) => {
     e.stopPropagation();
     addToCart(product);
-    showNotification('success', `${product.name} added to cart!`);
+    showNotification('success', `${product.name} added to cart.`);
   };
 
   const handleViewDetails = (e) => {
@@ -22,167 +22,116 @@ const ProductCard = ({ product, onView }) => {
     }
   };
 
-  const getBadgeClass = (badge) => {
-    const classes = {
-      'New': 'bg-gradient-to-r from-blue-500 to-blue-600 text-white',
-      'Hot': 'bg-gradient-to-r from-red-500 to-red-600 text-white',
-      'Sale': 'bg-gradient-to-r from-green-500 to-green-600 text-white',
-      'Popular': 'bg-gradient-to-r from-purple-500 to-purple-600 text-white',
-      'Bestseller': 'bg-gradient-to-r from-orange-500 to-orange-600 text-white',
-      'Just In': 'bg-gradient-to-r from-blue-500 to-blue-600 text-white',
-      'Featured': 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-black',
-    };
-    return classes[badge] || 'bg-gray-600 text-white';
+  const getBadgeStyle = (badge) => {
+    switch (badge?.toLowerCase()) {
+      case 'new':
+      case 'just in':
+        return 'bg-amber-400/20 text-amber-300 border-amber-400/30';
+      case 'sale':
+        return 'bg-rose-500/20 text-rose-300 border-rose-500/30';
+      case 'bestseller':
+      case 'popular':
+      case 'hot':
+        return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
+      default:
+        return 'bg-white/10 text-gray-200 border-white/10';
+    }
   };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -8 }}
+      initial={{ opacity: 0, y: 15 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
       transition={{ duration: 0.3 }}
       onClick={handleViewDetails}
-      className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 border border-gray-200 dark:border-gray-700"
+      className="group relative bg-[#121219]/90 rounded-xl overflow-hidden border border-white/10 hover:border-amber-400/40 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-2xl flex flex-col"
     >
-      <div className="relative overflow-hidden aspect-[3/4]">
-        <motion.img
+      {/* Product Image Box */}
+      <div className="relative overflow-hidden aspect-[3/4] bg-[#0E0E14]">
+        <img
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-          whileHover={{ scale: 1.1 }}
-          transition={{ duration: 0.5 }}
+          className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+          loading="lazy"
         />
         
+        {/* Subtle Dark Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none opacity-60 group-hover:opacity-40 transition-opacity" />
+
         {/* Badge */}
         {product.badge && (
-          <span className={`absolute top-4 left-4 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg ${getBadgeClass(product.badge)}`}>
+          <span className={`absolute top-2.5 left-2.5 px-2 py-0.5 rounded text-[10px] font-semibold tracking-wider uppercase border backdrop-blur-md ${getBadgeStyle(product.badge)}`}>
             {product.badge}
           </span>
         )}
-        
-        {/* Featured Badge */}
-        {product.featured && (
-          <span className="absolute top-4 right-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1.5 text-xs font-bold rounded-full shadow-lg">
-            FEATURED
-          </span>
-        )}
-        
-        {/* Stock Status */}
-        {product.stock === 0 && (
-          <span className="absolute top-4 right-4 bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1.5 text-xs font-bold rounded-full shadow-lg">
-            OUT OF STOCK
-          </span>
-        )}
-        
+
         {/* Wishlist Button */}
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+        <button
           onClick={(e) => {
             e.stopPropagation();
             setIsWishlisted(!isWishlisted);
-            showNotification('success', `${product.name} ${isWishlisted ? 'removed from' : 'added to'} wishlist!`);
+            showNotification('info', `${product.name} ${!isWishlisted ? 'saved to wishlist' : 'removed from wishlist'}`);
           }}
-          className={`absolute top-16 right-4 p-2.5 rounded-full shadow-lg transition-all duration-300 z-10 ${
-            isWishlisted 
-              ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-blue-500/50' 
-              : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-blue-500 hover:text-white border border-gray-200 dark:border-gray-700'
-          }`}
+          className="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-black/50 hover:bg-black/80 backdrop-blur-md border border-white/15 text-white flex items-center justify-center transition-all duration-200"
+          aria-label="Wishlist"
         >
-          <motion.div
-            animate={isWishlisted ? { scale: [1, 1.2, 1] } : {}}
-            transition={{ duration: 0.3 }}
-          >
-            <Heart size={18} fill={isWishlisted ? "currentColor" : "none"} />
-          </motion.div>
-        </motion.button>
-        
-        {/* Hover Overlay with Action Buttons */}
-        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100">
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+          <Heart 
+            size={13} 
+            className={isWishlisted ? "fill-amber-400 text-amber-400" : "text-gray-300 hover:text-white"} 
+          />
+        </button>
+
+        {/* Quick View Hover Pill */}
+        <div className="absolute inset-x-3 bottom-3 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <button
             onClick={handleAddToCart}
             disabled={product.stock === 0}
-            className={`p-3 rounded-full shadow-lg transition-all transform scale-90 group-hover:scale-100 ${
-              product.stock === 0 
-                ? 'bg-gray-400 cursor-not-allowed' 
-                : 'bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700'
-            }`}
+            className="flex-1 py-2 px-3 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-semibold text-xs rounded-lg flex items-center justify-center gap-1.5 shadow-lg transition-transform active:scale-95"
           >
-            <ShoppingCart size={20} />
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            <ShoppingBag size={13} />
+            <span>{product.stock === 0 ? 'Sold Out' : 'Quick Add'}</span>
+          </button>
+          
+          <button
             onClick={handleViewDetails}
-            className="p-3 bg-white text-gray-800 rounded-full shadow-lg hover:bg-gray-100 transition-colors transform scale-90 group-hover:scale-100"
+            className="w-8 h-8 rounded-lg bg-black/60 hover:bg-black/90 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-colors"
+            title="Quick view"
           >
-            <Eye size={20} />
-          </motion.button>
+            <Eye size={14} />
+          </button>
         </div>
       </div>
       
-      <div className="p-5">
-        <h3 className="font-bold text-lg mb-2 text-gray-900 dark:text-white group-hover:text-blue-500 transition-colors">
-          {product.name}
-        </h3>
+      {/* Product Information Box - Reduced Padding */}
+      <div className="p-3 sm:p-3.5 flex flex-col flex-1 justify-between bg-gradient-to-b from-[#121219] to-[#0E0E14]">
+        <div>
+          <span className="text-[10px] uppercase tracking-widest text-gray-400 font-medium block mb-1">
+            {product.category || 'Clothing'}
+          </span>
+          <h3 className="font-medium text-xs sm:text-sm text-gray-100 group-hover:text-amber-300 transition-colors line-clamp-1">
+            {product.name}
+          </h3>
+        </div>
         
-        <p className="text-gray-600 dark:text-gray-400 text-sm mb-3 line-clamp-2">
-          {product.description || 'Premium quality product with excellent craftsmanship.'}
-        </p>
-        
-        <div className="flex items-center justify-between">
-          <div className="flex flex-col">
-            <span className="text-2xl font-bold text-blue-500">
+        <div className="flex items-baseline justify-between mt-2.5 pt-2 border-t border-white/5">
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-sm sm:text-base font-bold text-amber-300 tracking-tight">
               ${product.price.toFixed(2)}
             </span>
             {product.originalPrice && (
-              <span className="text-sm text-gray-400 line-through">
+              <span className="text-xs text-gray-500 line-through">
                 ${product.originalPrice.toFixed(2)}
               </span>
             )}
           </div>
           
-          <div className="flex items-center space-x-2">
-            {product.stock !== undefined && (
-              <span className={`text-sm ${
-                product.stock > 10 
-                  ? 'text-green-500' 
-                  : product.stock > 0 
-                    ? 'text-yellow-500' 
-                    : 'text-red-500'
-              }`}>
-                {product.stock > 0 ? `${product.stock} left` : 'Out of stock'}
-              </span>
-            )}
-            
-            {product.rating && (
-              <div className="flex items-center">
-                <span className="text-yellow-500 mr-1">★</span>
-                <span className="text-sm text-gray-600 dark:text-gray-400">
-                  {product.rating}
-                </span>
-              </div>
-            )}
-          </div>
+          <span className="text-[10px] uppercase tracking-wider text-gray-400">
+            {product.stock !== undefined && product.stock <= 5 && product.stock > 0 
+              ? `${product.stock} left` 
+              : 'In Stock'}
+          </span>
         </div>
-        
-        {/* Quick Add to Cart Button - Mobile & Desktop */}
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={handleAddToCart}
-          disabled={product.stock === 0}
-          className={`w-full mt-4 py-3 px-4 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center space-x-2 ${
-            product.stock === 0
-              ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
-              : 'bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 shadow-md hover:shadow-blue-500/50'
-          }`}
-        >
-          <ShoppingCart size={18} />
-          <span>{product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}</span>
-        </motion.button>
       </div>
     </motion.div>
   );
